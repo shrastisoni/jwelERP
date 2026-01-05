@@ -9,7 +9,7 @@ return new class extends Migration
     {
         // Schema::table('products', function (Blueprint $table) {
         //     $table->decimal('weight', 10, 3)->default(0);
-        // });
+        // }); 
     }
 
     public function down(): void

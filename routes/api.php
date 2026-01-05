@@ -7,6 +7,7 @@ use App\Http\Controllers\API\PartyController;
 use App\Http\Controllers\API\SaleController;
 use App\Http\Controllers\API\StockLedgerController;
 use App\Http\Controllers\Api\PurchaseController;
+use App\Http\Controllers\Api\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -29,6 +30,13 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('/stock-ledger', [StockLedgerController::class, 'index']);
     Route::get('/stock-ledger', [StockLedgerController::class, 'index']);
     Route::get('/stock-ledger/{productId}', [StockLedgerController::class, 'productLedger']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    
+    Route::post('/products', [ProductController::class, 'store']);
+    Route::get('/products/{id}', [ProductController::class, 'show']);   // 👈
+    Route::put('/products/{id}', [ProductController::class, 'update']); 
+    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
 });
 
 // use Illuminate\Http\Request;

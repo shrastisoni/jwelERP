@@ -3,14 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
-namespace App\Models;
-
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    protected $fillable = ['category_id','name','purity','making_charge'];
+    use SoftDeletes;
+    protected $fillable = [
+        'name',
+        'category_id',
+        'metal',
+        'purity',   // 👈 ADD THIS
+        'weight',
+        'price'
+    ];
 
     public function category() {
         return $this->belongsTo(Category::class);

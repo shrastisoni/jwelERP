@@ -29,5 +29,12 @@ app.factory('ApiService', function ($http) {
         savePurchase:data => $http.post(baseUrl + '/purchases', data),
         getCustomers: data => $http.get(baseUrl + '/parties?type=customer'),
         getSuppliers : data => $http.get(baseUrl + '/parties?type=supplier'),
+        saveProduct  : data => $http.post(baseUrl + '/products', data),
+        getCategories: () => $http.get(baseUrl + '/categories'),
+        getProduct :(id) =>$http.get(baseUrl + '/products/'+id),
+        
+        updateProduct :(id, data) =>$http.put(baseUrl + '/products/'+id, data),
+        deleteProduct :(id)=>$http.delete(baseUrl + '/products/'+id),
+         
     };
 });

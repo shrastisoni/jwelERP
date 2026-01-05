@@ -16,16 +16,7 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'LoginController'
         })
         .when('/products', {
-            template: `
-                <h3>Products</h3>
-                <table class="table table-bordered">
-                    <tr><th>Name</th><th>Weight</th></tr>
-                    <tr ng-repeat="p in products">
-                        <td>{{p.name}}</td>
-                        <td>{{p.weight}}</td>
-                    </tr>
-                </table>
-            `,
+            templateUrl:'views/product.html',
             controller: 'ProductController'
         })
         .when('/stock', {
