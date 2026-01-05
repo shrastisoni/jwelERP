@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="erpApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Jewellery ERP</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- AngularJS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular-route.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="app.js"></script>
+    <script src="routes.js"></script>
+
+    <script src="services/authService.js"></script>
+    <script src="services/apiService.js"></script>
+
+    <script src="controllers/loginController.js"></script>
+    <script src="controllers/saleController.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand">💎 Jewellery ERP</a>
+</nav>
+
+<div class="container mt-4">
+    <div ng-view></div>
+</div>
+
+</body>
+</html>
