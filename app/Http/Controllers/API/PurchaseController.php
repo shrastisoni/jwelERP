@@ -9,6 +9,8 @@ use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Models\StockLedger;
+
 
 class PurchaseController extends Controller
 {
@@ -63,6 +65,18 @@ class PurchaseController extends Controller
                 $stock->increment('weight', $item['weight']);
 
                 $total += $amount;
+                StockLedger::create([
+                    'product_id'      => $item['product_id'],
+                    'type'            => 'purchase',
+                    'reference_id'    => $purchase->id,
+                    'qty_in'          => $item['quantity'],
+                    'qty_out'         => 0,
+                    'weight_in'       => $item['weight'],
+                    'weight_out'      => 0,
+                    'balance_qty'     => $stock->quantity,
+                    'balance_weight'  => $stock->weight,
+                ]);
+
             }
 
             $purchase->update(['total_amount' => $total]);

@@ -26,7 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/purchases', [PurchaseController::class, 'index']);
     Route::post('/purchases', [PurchaseController::class, 'store']);
     // Route::apiResource('purchases', PurchaseController::class);
+    // Route::get('/stock-ledger', [StockLedgerController::class, 'index']);
     Route::get('/stock-ledger', [StockLedgerController::class, 'index']);
+    Route::get('/stock-ledger/{productId}', [StockLedgerController::class, 'productLedger']);
 });
 
 // use Illuminate\Http\Request;

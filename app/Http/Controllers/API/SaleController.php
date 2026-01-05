@@ -9,6 +9,8 @@ use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
+use App\Models\StockLedger;
+
 
 class SaleController extends Controller
 {
@@ -95,6 +97,18 @@ class SaleController extends Controller
                     $stock->decrement('weight', $item['weight']);
 
                     $total += $amount;
+                    StockLedger::create([
+                        'product_id'      => $item['product_id'],
+                        'type'            => 'sale',
+                        'reference_id'    => $sale->id,
+                        'qty_in'          => 0,
+                        'qty_out'         => $item['quantity'],
+                        'weight_in'       => 0,
+                        'weight_out'      => $item['weight'],
+                        'balance_qty'     => $stock->quantity,
+                        'balance_weight'  => $stock->weight,
+                    ]);
+
                 }
 
                 // ✅ UPDATE TOTAL

@@ -9,13 +9,17 @@ class StockLedger extends Model
     protected $fillable = [
         'product_id',
         'type',
-        'weight',
-        'quantity',
-        'balance_weight',
-        'balance_qty'
+        'reference_id',
+        'qty_in',
+        'qty_out',
+        'weight_in',
+        'weight_out',
+        'balance_qty',
+        'balance_weight'
     ];
 
-    public function product() {
+    public function product()
+    {
         return $this->belongsTo(Product::class);
     }
 }

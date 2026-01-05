@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\StockLedger;
 use App\Http\Controllers\Controller;
+use App\Models\StockLedger;
 
 class StockLedgerController extends Controller
 {
@@ -13,5 +13,12 @@ class StockLedgerController extends Controller
             ->latest()
             ->get();
     }
-}
 
+    public function productLedger($productId)
+    {
+        return StockLedger::with('product')
+            ->where('product_id', $productId)
+            ->orderBy('id')
+            ->get();
+    }
+}
