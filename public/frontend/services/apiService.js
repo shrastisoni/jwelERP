@@ -36,5 +36,8 @@ app.factory('ApiService', function ($http) {
         updateProduct :(id, data) =>$http.put(baseUrl + '/products/'+id, data),
         deleteProduct :(id)=>$http.delete(baseUrl + '/products/'+id),
         toggleProductStatus :(id)=>$http.patch(baseUrl + '/products/' + id + '/toggle'),
+        getProductProfit:() => $http.get(baseUrl + '/reports/product-profit'),
+        getPurchaseCostProfit:() => $http.get(baseUrl + '/reports/profit/purchase-cost'),
+        
     };
 });

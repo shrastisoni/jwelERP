@@ -1,0 +1,59 @@
+
+<div class="container mt-4">
+    <h3>Product-wise Profit Report</h3>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th>Metal</th>
+            <th>Purity</th>
+            <th>Profit</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="p in profits">
+            <td>{{ p.product }}</td>
+            <td>{{ p.metal }}</td>
+            <td>{{ p.purity }}</td>
+            <td>
+                {{p.profit > 0}}
+                <span ng-class="p.profit >= 0 ? 'text-success' : 'text-danger'">
+                    {{ p.profit | currency:'₹' }}
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>Product</th>
+            <th>Metal</th>
+            <th>Purity</th>
+            <th>Purchase Cost</th>
+            <th>Sale Amount</th>
+            <th>Profit</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr ng-repeat="r in rows">
+            <td>{{ r.product }}</td>
+            <td>{{ r.metal }}</td>
+            <td>{{ r.purity }}</td>
+            <td>{{ r.purchase_cost | currency:'₹' }}</td>
+            <td>{{ r.sale_amount | currency:'₹' }}</td>
+            <td>
+                <span ng-class="r.profit >= 0 ? 'text-success' : 'text-danger'">
+                    {{ r.profit | currency:'₹' }}
+                </span>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+</div>
+

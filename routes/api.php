@@ -8,6 +8,7 @@ use App\Http\Controllers\API\SaleController;
 use App\Http\Controllers\API\StockLedgerController;
 use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProfitController;
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -38,6 +39,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
     Route::patch('/products/{id}/toggle', [ProductController::class, 'toggleStatus']);
     Route::get('/getallproducts', [ProductController::class,'getAllProducts']);
+    //Routes for profit controller
+    Route::get('/reports/product-profit', [ ProfitController::class, 'productWise']);
+    Route::get('/reports/profit/purchase-cost', [ ProfitController::class, 'productWiseNew']);
 });
 
 // use Illuminate\Http\Request;
