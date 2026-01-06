@@ -39,5 +39,7 @@ app.factory('ApiService', function ($http) {
         getProductProfit:() => $http.get(baseUrl + '/reports/product-profit'),
         getPurchaseCostProfit:() => $http.get(baseUrl + '/reports/profit/purchase-cost'),
         addOpeningStock : data => $http.post(baseUrl + '/opening-stock', data),
+        getDashboard:() => $http.get(baseUrl + '/dashboard'),
+        getDashboardCharts:() => $http.get(baseUrl + '/dashboard/charts'),
     };
 });

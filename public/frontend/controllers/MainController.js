@@ -1,15 +1,16 @@
-app.controller('MainController', function ($scope, $location) {
-
+app.controller('MainController', function ($rootScope, $scope, $location) {
+    
     $scope.isActive = function (page) {
-        console.log(window.location.pathname.includes(page));
-        return window.location.pathname.includes(page);
+        return $location.path() == page;
     };
 
     $scope.logout = function () {
         localStorage.removeItem('token');
-        window.location.href = '#!/login';
+        // window.location.href = '#!/login';
+        $location.path('/login');
     };
     if (!localStorage.getItem('token')) {
-        window.location.href = '#!/login';
+        // window.location.href = '#!/login';
+        $location.path('/login');
     }
 });

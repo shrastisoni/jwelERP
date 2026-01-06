@@ -57,7 +57,13 @@ app.config(function ($routeProvider, $httpProvider) {
         })
         .when('/openingstock', {
             templateUrl: 'views/opening-stock.html',
-            controller: 'OpeningStockController'
+            controller: 'OpeningStockController',
+            activetab: 'openingstock'
+        })
+        .when('/dashboard', {
+            templateUrl: 'views/dashboard.html',
+            controller: 'DashboardController',
+            activetab: 'dashboard'
         })
         .otherwise({ redirectTo: '/login' });
 
@@ -74,3 +80,14 @@ app.config(function ($routeProvider, $httpProvider) {
         };
     });
 });
+// app.run(['$rootScope', '$location', function($rootScope, $location){
+//     var path = function() { 
+//         return $location.path();
+//     };
+//    $rootScope.$watch(path, function(newVal, oldVal){
+//         console.log(newVal);
+//         console.log(oldVal);
+//         $rootScope.activetab = newVal;
+//          console.log($rootScope.activetab);
+//    }, true);
+// }]);

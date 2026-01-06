@@ -6,7 +6,7 @@ app.controller('LoginController', function ($scope, $location, ApiService) {
             password: $scope.password
         }).then(function (res) {
             localStorage.setItem('token', res.data.token);
-            $location.path('/products');
+            $location.path('/dashboard');
         }, function () {
             $scope.error = "Invalid login";
         });

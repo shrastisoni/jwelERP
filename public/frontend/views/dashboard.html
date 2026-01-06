@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-md-3">
         <div class="card text-white bg-info mb-3">
             <div class="card-body text-center">
@@ -16,4 +16,115 @@
             </div>
         </div>
     </div>
+</div> -->
+
+<div class="container mt-4">
+
+    <h3>Dashboard</h3>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card text-bg-primary mb-3">
+                <div class="card-body">
+                    <h6>Total Products</h6>
+                    <h3>{{ data.total_products }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-secondary mb-3">
+                <div class="card-body">
+                    <h6>Total Stock (gm)</h6>
+                    <h3>{{ data.total_stock }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-success mb-3">
+                <div class="card-body">
+                    <h6>Total Purchase</h6>
+                    <h3>{{ data.total_purchase | currency:'₹' }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-bg-warning mb-3">
+                <div class="card-body">
+                    <h6>Total Sales</h6>
+                    <h3>{{ data.total_sales | currency:'₹' }}</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PROFIT -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card text-bg-dark mb-3">
+                <div class="card-body">
+                    <h6>Net Profit</h6>
+                    <h3 ng-class="data.profit >= 0 ? 'text-success' : 'text-danger'">
+                        {{ data.profit | currency:'₹' }}
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                Monthly Sales
+            </div>
+            <div class="card-body">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                Monthly Profit
+            </div>
+            <div class="card-body">
+                <canvas id="profitChart"></canvas>
+            </div>
+        </div>
+    </div>
+
 </div>
+    <!-- LOW STOCK -->
+    <div class="card mt-4">
+        <div class="card-header bg-danger text-white">
+            Low Stock Products
+        </div>
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Balance (gm)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="l in data.low_stock">
+                    <td>{{ l.product.name }}</td>
+                    <td>{{ l.balance }}</td>
+                </tr>
+                <tr ng-if="data.low_stock.length == 0">
+                    <td colspan="2" class="text-center">No low stock</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+

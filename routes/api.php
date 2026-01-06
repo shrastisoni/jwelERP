@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProfitController;
 use App\Http\Controllers\Api\OpeningStockController;
+use App\Http\Controllers\Api\DashboardController;
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -44,6 +45,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports/product-profit', [ ProfitController::class, 'productWise']);
     Route::get('/reports/profit/purchase-cost', [ ProfitController::class, 'productWiseNew']);
     Route::post('/opening-stock', [ OpeningStockController::class, 'store']);
+    
+    // Route for dashboard
+    Route::get('/dashboard', [ DashboardController::class, 'index']);
+    Route::get('/dashboard/charts', [ DashboardController::class, 'index']);
     
 });
 
