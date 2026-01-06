@@ -65,6 +65,12 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'DashboardController',
             activetab: 'dashboard'
         })
+        .when('/category', {
+            templateUrl: 'views/category.html',
+            controller: 'CategoryController',
+            activetab: 'category'
+        })
+        
         .otherwise({ redirectTo: '/login' });
 
     // Attach token automatically

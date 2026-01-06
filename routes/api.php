@@ -34,7 +34,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/stock-ledger', [StockLedgerController::class, 'index']);
     Route::get('/stock-ledger/{productId}', [StockLedgerController::class, 'productLedger']);
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::post('/categories', [CategoryController::class, 'store']);
     
+    Route::put('/categories/{category}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::get('/products/{id}', [ProductController::class, 'show']);   // 👈
     Route::put('/products/{id}', [ProductController::class, 'update']); 

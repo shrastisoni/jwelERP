@@ -41,5 +41,8 @@ app.factory('ApiService', function ($http) {
         addOpeningStock : data => $http.post(baseUrl + '/opening-stock', data),
         getDashboard:() => $http.get(baseUrl + '/dashboard'),
         getDashboardCharts:() => $http.get(baseUrl + '/dashboard/charts'),
+        addCategory : data => $http.post(baseUrl + '/categories', data),
+        updateCategory:(id, data) =>$http.put(baseUrl + '/categories/'+id, data),
+        deleteCategory  :(id)=>$http.delete(baseUrl + '/categories/'+id),
     };
 });
