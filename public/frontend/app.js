@@ -55,6 +55,10 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'views/product-profit.html',
             controller: 'ProfitController'
         })
+        .when('/openingstock', {
+            templateUrl: 'views/opening-stock.html',
+            controller: 'OpeningStockController'
+        })
         .otherwise({ redirectTo: '/login' });
 
     // Attach token automatically

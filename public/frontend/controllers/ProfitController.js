@@ -4,9 +4,10 @@ app.controller('ProfitController', function ($scope, ApiService) {
 
     ApiService.getProductProfit().then(res => {
         $scope.profits = res.data;
-       $scope.profits.forEach((value, index) => {
-            console.log(`Index ${index}: Value ${value}`);
-        });
+        // Object.keys(res.data).forEach((value, index) => {
+        //     console.log(typeof(value));
+        //     console.log(`Index ${index}: Value ${value}`);
+        // });
     });
 
     $scope.rows = [];

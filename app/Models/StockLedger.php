@@ -15,7 +15,8 @@ class StockLedger extends Model
         'weight_in',
         'weight_out',
         'balance_qty',
-        'balance_weight'
+        'balance_weight',
+        'rate'
     ];
 
     public function product()

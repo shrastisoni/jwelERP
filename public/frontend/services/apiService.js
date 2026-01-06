@@ -38,6 +38,6 @@ app.factory('ApiService', function ($http) {
         toggleProductStatus :(id)=>$http.patch(baseUrl + '/products/' + id + '/toggle'),
         getProductProfit:() => $http.get(baseUrl + '/reports/product-profit'),
         getPurchaseCostProfit:() => $http.get(baseUrl + '/reports/profit/purchase-cost'),
-        
+        addOpeningStock : data => $http.post(baseUrl + '/opening-stock', data),
     };
 });

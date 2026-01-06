@@ -9,6 +9,7 @@ use App\Http\Controllers\API\StockLedgerController;
 use App\Http\Controllers\Api\PurchaseController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\ProfitController;
+use App\Http\Controllers\Api\OpeningStockController;
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -42,6 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     //Routes for profit controller
     Route::get('/reports/product-profit', [ ProfitController::class, 'productWise']);
     Route::get('/reports/profit/purchase-cost', [ ProfitController::class, 'productWiseNew']);
+    Route::post('/opening-stock', [ OpeningStockController::class, 'store']);
+    
 });
 
 // use Illuminate\Http\Request;
