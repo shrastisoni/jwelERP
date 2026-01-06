@@ -10,8 +10,13 @@ use App\Models\PurchaseItem;
 class ProductController extends Controller
 {
     public function index() {
-        return Product::with('category')->whereNull('deleted_at')->get();
+        return Product::with('category')->whereNull('deleted_at')->where('is_active', true)->get();
+        // return Product::with('category')->whereNull('deleted_at')->get();
     }
+    public function getAllProducts() {
+        return Product::with('category')->get();
+    }
+
     public function show($id)
     {
         return Product::findOrFail($id);
@@ -79,6 +84,18 @@ class ProductController extends Controller
 
         return response()->json([
             'message' => 'Product deleted safely'
+        ]);
+    }
+    public function toggleStatus($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $product->is_active = ! $product->is_active;
+        $product->save();
+
+        return response()->json([
+            'message' => 'Product status updated',
+            'is_active' => $product->is_active
         ]);
     }
 

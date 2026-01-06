@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Sale;
 use App\Models\SaleItem;
 use App\Models\Stock;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -42,7 +43,7 @@ class SaleController extends Controller
             ]);
         } catch (ValidationException $e) {
             return response()->json([
-                'message' => 'Validation failed',
+                'message' => $e->getMessage(),
                 'errors'  => $e->errors()
             ], 422);
         }
@@ -67,7 +68,15 @@ class SaleController extends Controller
                         ['product_id' => $item['product_id']],
                         ['quantity' => 0, 'weight' => 0]
                     );
+                    $product = Product::where('id', $item['product_id'])
+                        ->where('is_active', true)
+                        ->first();
 
+                    if (!$product) {
+                        throw ValidationException::withMessages([
+                            'product' => 'Inactive product cannot be used'
+                        ]);
+                    }
                     // ❌ INSUFFICIENT STOCK
                     if (
                         $stock->quantity < $item['quantity'] ||
@@ -75,12 +84,13 @@ class SaleController extends Controller
                     ) {
                         throw ValidationException::withMessages([
                             'stock' => [
-                                'Insufficient stock for product ID ' . $item['product_id']
+                                'Insufficient stock for product Name ' . $product['name']
                             ]
                         ]);
                     }
 
                     $amount = $item['weight'] * $item['rate'];
+                  
 
                     // ✅ SALE ITEM
                     SaleItem::create([
@@ -122,9 +132,9 @@ class SaleController extends Controller
             ], 201);
 
         } catch (ValidationException $e) {
-
+            
             return response()->json([
-                'message' => 'Stock validation failed',
+                'message' => $e->getMessage(),
                 'errors'  => $e->errors()
             ], 422);
 

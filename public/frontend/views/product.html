@@ -17,6 +17,7 @@
             <th>Weight</th>
             <th>Price</th>
             <th>Purity</th>
+            <th>Status</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -31,6 +32,18 @@
             <td>{{p.price}}</td>
             <td>{{p.purity}}k</td>
             <td>
+                <span class="badge"
+                    ng-class="p.is_active ? 'bg-success' : 'bg-secondary'">
+                    {{ p.is_active ? 'Active' : 'Inactive' }}
+                </span>
+            </td>
+
+            <td>
+                <button class="btn btn-sm"
+                        ng-class="p.is_active ? 'btn-danger' : 'btn-success'"
+                        ng-click="toggleStatus(p)">
+                    {{ p.is_active ? 'Deactivate' : 'Activate' }}
+                </button>
                 <button ng-click="getProduct(p.id)"
                 class="btn btn-sm btn-warning">
                     Edit

@@ -12,9 +12,10 @@ class Product extends Model
         'name',
         'category_id',
         'metal',
-        'purity',   // 👈 ADD THIS
+        'purity',   
         'weight',
-        'price'
+        'price',
+        'is_active'
     ];
 
     public function category() {

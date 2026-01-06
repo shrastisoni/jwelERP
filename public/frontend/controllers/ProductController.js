@@ -47,11 +47,17 @@ app.controller('ProductController', function ($scope, ApiService) {
 
 
     $scope.loadProducts = function () {
-        ApiService.getProducts()
+        // ApiService.getProducts()
+        //     .then(res => {
+        //         console.log(res.data);
+        //         $scope.products = res.data;
+        //     });
+        ApiService.getAllProducts()
             .then(res => {
                 console.log(res.data);
                 $scope.products = res.data;
             });
+        
     };
 
     $scope.loadProducts();
@@ -107,6 +113,18 @@ app.controller('ProductController', function ($scope, ApiService) {
             .then(res => {
                 alert(res.data.message);
                 $scope.loadProducts();
+            })
+            .catch(err => {
+                alert(err.data.message);
+            });
+    };
+    $scope.toggleStatus = function (product) {
+
+        if (!confirm('Change product status?')) return;
+
+        ApiService.toggleProductStatus(product.id)
+            .then(res => {
+                product.is_active = res.data.is_active;
             })
             .catch(err => {
                 alert(err.data.message);

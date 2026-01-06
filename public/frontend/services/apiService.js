@@ -31,10 +31,10 @@ app.factory('ApiService', function ($http) {
         getSuppliers : data => $http.get(baseUrl + '/parties?type=supplier'),
         saveProduct  : data => $http.post(baseUrl + '/products', data),
         getCategories: () => $http.get(baseUrl + '/categories'),
+        getAllProducts: () => $http.get(baseUrl + '/getallproducts'),
         getProduct :(id) =>$http.get(baseUrl + '/products/'+id),
-        
         updateProduct :(id, data) =>$http.put(baseUrl + '/products/'+id, data),
         deleteProduct :(id)=>$http.delete(baseUrl + '/products/'+id),
-         
+        toggleProductStatus :(id)=>$http.patch(baseUrl + '/products/' + id + '/toggle'),
     };
 });
