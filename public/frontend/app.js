@@ -80,7 +80,21 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'CategoryController',
             activetab: 'category'
         })
-        
+        .when('/customers', {
+            templateUrl: 'views/customers.html',
+            controller: 'CustomerController',
+            activetab: 'customers'
+        })
+        // .when('/customerledger', {
+        //     templateUrl: 'views/customer-ledger.html',
+        //     controller: 'CustomerLedgerController',
+        //     activetab: 'customerledger'
+        // })
+        .when('/customers/:customerId/ledger', {
+            templateUrl: 'views/customer-ledger.html',
+            controller: 'CustomerLedgerController'
+        })
+
         .otherwise({ redirectTo: '/login' });
 
     // Attach token automatically

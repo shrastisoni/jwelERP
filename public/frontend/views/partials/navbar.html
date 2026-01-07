@@ -55,14 +55,21 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#!/sales" >New Sale</a></li>
-                        <!-- <li><a class="dropdown-item" href="sales-list.html">Sales List</a></li> -->
+                        <li><a class="dropdown-item" href="#!/customers">Customers List</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="#!/stockledger">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"
+                       href="#" role="button"
+                       data-bs-toggle="dropdown" ng-class="{active: isActive('/sales')}">
                         Stock Ledger
                     </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#!/stockledger" >Stock Ledger</a></li>
+                        <!-- <li><a class="dropdown-item" href="#!/customerledger">Customers Ledger</a></li> -->
+                    </ul>
+                    
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle"

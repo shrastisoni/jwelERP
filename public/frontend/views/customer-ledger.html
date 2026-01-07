@@ -1,0 +1,42 @@
+<div ng-controller="CustomerLedgerController">
+
+    <h4>
+        Customer Ledger – {{ customer.name }}
+    </h4>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Date</th>
+                <th>Particulars</th>
+                <th class="text-end">Debit</th>
+                <th class="text-end">Credit</th>
+                <th class="text-end">Balance</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="row in ledger">
+                <td>{{ row.date | date:'dd-MM-yyyy' }}</td>
+                <td>{{ row.particulars }}</td>
+                <td class="text-end">{{ row.debit | number:2 }}</td>
+                <td class="text-end">{{ row.credit | number:2 }}</td>
+                <td class="text-end fw-bold">
+                    {{ row.balance | number:2 }}
+                </td>
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr class="table-secondary">
+                <th colspan="4" class="text-end">
+                    Closing Balance
+                </th>
+                <th class="text-end">
+                    {{ closing_balance | number:2 }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+</div>

@@ -1,0 +1,134 @@
+
+<div class="container mt-4">
+
+    <h4>Customers</h4>
+
+    <!-- SEARCH -->
+    <input class="form-control mb-3"
+           placeholder="Search by name or mobile"
+           ng-model="search"
+           ng-change="searchCustomers()">
+
+    <div class="row">
+
+        <!-- FORM -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    {{ editing ? 'Edit Customer' : 'Add Customer' }}
+                </div>
+                <div class="card-body">
+
+                    <input class="form-control mb-2"
+                           placeholder="Name"
+                           ng-model="customer.name">
+
+                    <input class="form-control mb-2"
+                           placeholder="Mobile"
+                           ng-model="customer.mobile">
+
+                    <input class="form-control mb-2"
+                           placeholder="Email"
+                           ng-model="customer.email">
+
+                    <textarea class="form-control mb-2"
+                              placeholder="Address"
+                              ng-model="customer.address"></textarea>
+
+                    <button class="btn btn-success w-100"
+                            ng-click="save()">
+                        {{ editing ? 'Update' : 'Save' }}
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- LIST -->
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Mobile</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="c in customers">
+                        <td>{{ c.name }}</td>
+                        <td>{{ c.mobile }}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary"
+                                    ng-click="edit(c)">
+                                Edit
+                            </button>
+                            <button class="btn btn-sm btn-danger"
+                                    ng-click="delete(c)">
+                                Delete
+                            </button>
+                            <a href="#!/customers/{{c.id}}/ledger" class="btn btn-sm btn-info">
+                                Ledger
+                            </a>
+                        </td>
+                        
+                    </tr>
+
+                    <tr ng-if="customers.length === 0">
+                        <td colspan="3" class="text-center">
+                            No customers found
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</div>
+<!-- <div ng-controller="CustomerLedgerController">
+
+    <h4>
+        Customer Ledger – {{ customer.name }}
+    </h4>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>Date</th>
+                <th>Particulars</th>
+                <th class="text-end">Debit</th>
+                <th class="text-end">Credit</th>
+                <th class="text-end">Balance</th>
+                <th class="text-end">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr ng-repeat="row in ledger">
+                <td>{{ row.date | date:'dd-MM-yyyy' }}</td>
+                <td>{{ row.particulars }}</td>
+                <td class="text-end">{{ row.debit | number:2 }}</td>
+                <td class="text-end">{{ row.credit | number:2 }}</td>
+                <td class="text-end fw-bold">
+                    {{ row.balance | number:2 }}
+                </td>
+                
+            </tr>
+        </tbody>
+
+        <tfoot>
+            <tr class="table-secondary">
+                <th colspan="4" class="text-end">
+                    Closing Balance
+                </th>
+                <th class="text-end">
+                    {{ closing_balance | number:2 }}
+                </th>
+            </tr>
+        </tfoot>
+    </table>
+
+</div> -->
+
+

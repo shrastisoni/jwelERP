@@ -46,5 +46,12 @@ app.factory('ApiService', function ($http) {
         addCategory : data => $http.post(baseUrl + '/categories', data),
         updateCategory:(id, data) =>$http.put(baseUrl + '/categories/'+id, data),
         deleteCategory  :(id)=>$http.delete(baseUrl + '/categories/'+id),
+        
+        getCustomers :(q = '') => $http.get(baseUrl + '/customers?q=' + q),
+        addCustomer : data => $http.post(baseUrl + '/customers', data),
+        updateCustomer:(id, data) =>$http.put(baseUrl + '/customers/'+id, data),
+        deleteCustomer  :(id)=>$http.delete(baseUrl + '/customers/'+id),
+        getCustomerLedger:(id) => $http.get(baseUrl + '/customers/' + id + '/ledger'),
+        
     };
 });

@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\ProfitController;
 use App\Http\Controllers\Api\OpeningStockController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\CustomerLedgerController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -57,6 +60,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route for dashboard
     Route::get('/dashboard', [ DashboardController::class, 'index']);
     Route::get('/dashboard/charts', [ DashboardController::class, 'index']);
+    //Route for customers
+    Route::get('/customers', [CustomerController::class, 'index']);
+    Route::post('/customers', [CustomerController::class, 'store']);
+    Route::put('/customers/{customer}', [CustomerController::class, 'update']);
+    Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
+    Route::get('/customers/{id}/ledger', [CustomerLedgerController::class, 'ledger']);
     
 });
 

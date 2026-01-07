@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Sale extends Model
 {
     protected $fillable = [
-        'party_id','invoice_no','invoice_date','total_amount'
+        'party_id',
+        'invoice_no',
+        'invoice_date',
+        'total_amount'
     ];
 
     public function items() {
