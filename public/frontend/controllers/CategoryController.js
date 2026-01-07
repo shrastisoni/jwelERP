@@ -51,3 +51,27 @@ app.controller('CategoryController', function ($scope, ApiService) {
         $scope.editing = false;
     }
 });
+
+app.controller('CategoryProductController', function ($scope, ApiService) {
+
+    $scope.categories = [];
+    $scope.products = [];
+    $scope.selectedCategory = null;
+
+    // load categories
+    ApiService.getCategories().then(res => {
+        $scope.categories = res.data;
+    });
+
+    $scope.loadProducts = function () {
+        if (!$scope.selectedCategory) {
+            $scope.products = [];
+            return;
+        }
+
+        ApiService.getProductsByCategory($scope.selectedCategory)
+            .then(res => {
+                $scope.products = res.data;
+            });
+    };
+});

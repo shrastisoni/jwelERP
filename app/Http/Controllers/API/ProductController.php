@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\StockLedger;
 use App\Models\SaleItem;
 use App\Models\PurchaseItem;
+use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     public function index() {
@@ -98,5 +99,21 @@ class ProductController extends Controller
             'is_active' => $product->is_active
         ]);
     }
+    public function byCategory($categoryId)
+    {
+        $products = DB::table('products')
+            ->leftJoin('stock_ledgers', 'products.id', '=', 'stock_ledgers.product_id')
+            ->select(
+                'products.id',
+                'products.name',
+                'products.is_active',
+                DB::raw('IFNULL(SUM(stock_ledgers.weight_in - stock_ledgers.weight_out),0) as stock')
+            )
+            ->where('products.category_id', $categoryId)
+            ->groupBy('products.id', 'products.name', 'products.is_active')
+            ->orderBy('products.name')
+            ->get();
 
+        return response()->json($products);
+    }
 }

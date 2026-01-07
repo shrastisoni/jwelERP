@@ -1,0 +1,56 @@
+
+<div class="container mt-4">
+
+    <h4 class="mb-3">Category Wise Product List</h4>
+
+    <!-- CATEGORY DROPDOWN -->
+    <div class="row mb-3">
+        <div class="col-md-4">
+            <select class="form-select"
+                    ng-model="selectedCategory"
+                    ng-change="loadProducts()"
+                    ng-options="c.id as c.name for c in categories">
+                <option value="">-- Select Category --</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- PRODUCT TABLE -->
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Status</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr ng-repeat="p in products">
+                <td>{{ p.name }}</td>
+                <td>
+                    <span class="badge"
+                          ng-class="p.is_active ? 'bg-success' : 'bg-danger'">
+                        {{ p.is_active ? 'Active' : 'Inactive' }}
+                    </span>
+                </td>
+                <td>
+                    <span class="badge"
+                          ng-class="p.stock > 0 ? 'bg-success' : 'bg-secondary'">
+                        {{ p.stock }}
+                    </span>
+                </td>
+            </tr>
+
+            <tr ng-if="products.length === 0">
+                <td colspan="3" class="text-center">
+                    No products found
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+

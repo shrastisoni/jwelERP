@@ -40,6 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/categories/{category}', [CategoryController::class, 'destroy']);
     Route::post('/products', [ProductController::class, 'store']);
     Route::get('/products/{id}', [ProductController::class, 'show']);   // 👈
+    Route::get('/products/category/{id}', [ProductController::class, 'byCategory']);   // 👈
+    
     Route::put('/products/{id}', [ProductController::class, 'update']); 
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
     Route::patch('/products/{id}/toggle', [ProductController::class, 'toggleStatus']);
