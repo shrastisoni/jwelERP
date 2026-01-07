@@ -75,3 +75,12 @@ app.controller('CategoryProductController', function ($scope, ApiService) {
             });
     };
 });
+app.controller('CategoryStockController', function ($scope, ApiService) {
+
+    $scope.rows = [];
+
+    ApiService.getCategoryStock().then(res => {
+        $scope.rows = res.data;
+    });
+
+});

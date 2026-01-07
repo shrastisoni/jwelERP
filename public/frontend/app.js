@@ -65,10 +65,15 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'DashboardController',
             activetab: 'dashboard'
         })
-         .when('/productbycategory', {
+        .when('/productbycategory', {
             templateUrl: 'views/category-products.html',
             controller: 'CategoryProductController',
             activetab: 'productbycategory'
+        })
+        .when('/categorystock', {
+            templateUrl: 'views/category-stock.html',
+            controller: 'CategoryStockController',
+            activetab: 'categorystock'
         })
         .when('/category', {
             templateUrl: 'views/category.html',

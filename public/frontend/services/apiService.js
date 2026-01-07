@@ -38,6 +38,7 @@ app.factory('ApiService', function ($http) {
         deleteProduct :(id)=>$http.delete(baseUrl + '/products/'+id),
         toggleProductStatus :(id)=>$http.patch(baseUrl + '/products/' + id + '/toggle'),
         getProductProfit:() => $http.get(baseUrl + '/reports/product-profit'),
+        getCategoryStock:() => $http.get(baseUrl + '/reports/category-stock'),
         getPurchaseCostProfit:() => $http.get(baseUrl + '/reports/profit/purchase-cost'),
         addOpeningStock : data => $http.post(baseUrl + '/opening-stock', data),
         getDashboard:() => $http.get(baseUrl + '/dashboard'),

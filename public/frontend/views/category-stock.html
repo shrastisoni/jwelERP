@@ -1,0 +1,36 @@
+
+<div class="container mt-4">
+
+    <h4 class="mb-3">Category Wise Stock Total</h4>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Category</th>
+                <th>Total Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr ng-repeat="r in rows">
+                <td>{{ r.name }}</td>
+                <td>
+                    <span class="badge"
+                          ng-class="r.total_stock > 0 ? 'bg-success' : 'bg-secondary'">
+                        {{ r.total_stock | number:2 }}
+                    </span>
+                </td>
+            </tr>
+
+            <tr ng-if="rows.length === 0">
+                <td colspan="2" class="text-center">
+                    No data
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
+
