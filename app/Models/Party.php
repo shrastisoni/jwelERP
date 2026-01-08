@@ -13,4 +13,18 @@ class Party extends Model
         'email',
         'address'
     ];
+    public function sales()
+    {
+        return $this->hasMany(\App\Models\Sale::class);
+    }
+
+    public function purchases()
+    {
+        return $this->hasMany(\App\Models\Purchase::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(\App\Models\Payment::class);
+    }
 }

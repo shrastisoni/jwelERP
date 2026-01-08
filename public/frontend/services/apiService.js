@@ -21,7 +21,7 @@ app.factory('ApiService', function ($http) {
        
         login: data => $http.post(baseUrl + '/login', data),
         getProducts: () => $http.get(baseUrl + '/products'),
-        getParties: () => $http.get(baseUrl + '/parties'),
+        // getParties: () => $http.get(baseUrl + '/parties'),
         getStock: () => $http.get(baseUrl + '/stock-ledger'),
         getStockLedger: () => $http.get(baseUrl + '/stock-ledger'),
         getProductLedger: data =>$http.get(baseUrl + '/stock-ledger/'+data),
@@ -58,5 +58,10 @@ app.factory('ApiService', function ($http) {
         updatePayment :(id, data) =>$http.put(baseUrl + '/payments/'+id, data),
         deletePayment  :(id)=>$http.delete(baseUrl + '/payments/'+id),
         
+        getParties :(params) => $http.get(baseUrl + '/parties' , { params: params }),
+        saveParty : data => $http.post(baseUrl + '/parties', data),
+        updateParty:(id, data) =>$http.put(baseUrl + '/parties/'+id, data),
+        deleteParty  :(id)=>$http.delete(baseUrl + '/parties/'+id),
+       
     };
 });

@@ -1,0 +1,94 @@
+<div  class="container mt-4">
+
+    <h4>Parties (Customer / Supplier)</h4>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input class="form-control"
+                   placeholder="Search name / mobile"
+                   ng-model="search"
+                   ng-change="onSearchChange()">
+        </div>
+
+        <div class="col">
+            <select class="form-control"
+                    ng-model="filterType"
+                    ng-change="onSearchChange()">
+                <option value="">All</option>
+                <option value="customer">Customer</option>
+                <option value="supplier">Supplier</option>
+            </select>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th width="150">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="p in parties">
+                <td>{{ p.name }}</td>
+                <td>
+                    <span class="badge"
+                          ng-class="p.type=='customer' ? 'bg-success' : 'bg-primary'">
+                        {{ p.type }}
+                    </span>
+                </td>
+                <td>{{ p.mobile }}</td>
+                <td>{{ p.address }}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning"
+                            ng-click="edit(p)">Edit</button>
+                    <button class="btn btn-sm btn-danger"
+                            ng-click="delete(p.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <h5>{{ editing ? 'Edit Party' : 'Add Party' }}</h5>
+
+    <form ng-submit="save()">
+
+        <input class="form-control mb-2"
+               placeholder="Name"
+               ng-model="form.name"
+               required>
+
+        <select class="form-control mb-2"
+                ng-model="form.type"
+                required>
+            <option value="">Select Type</option>
+            <option value="customer">Customer</option>
+            <option value="supplier">Supplier</option>
+        </select>
+
+        <input class="form-control mb-2"
+               placeholder="Mobile"
+               ng-model="form.mobile">
+
+        <textarea class="form-control mb-2"
+                  placeholder="Address"
+                  ng-model="form.address"></textarea>
+
+        <button class="btn btn-primary">
+            {{ editing ? 'Update' : 'Save' }}
+        </button>
+
+        <button class="btn btn-secondary"
+                type="button"
+                ng-if="editing"
+                ng-click="editing=false;form={}">
+            Cancel
+        </button>
+    </form>
+
+</div>

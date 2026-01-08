@@ -71,9 +71,14 @@ Route::middleware('auth:sanctum')->group(function () {
     //Payments
     Route::post('/payments', [PaymentController::class, 'store']);
     Route::get('/payments', [PaymentController::class, 'index']);
-    Route::get('/payments', [PaymentController::class, 'index']);
     Route::put('/payments/{id}', [PaymentController::class, 'update']);
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
+
+
+    Route::get('/parties', [PartyController::class, 'index']);
+    Route::post('/parties', [PartyController::class, 'store']);
+    Route::put('/parties/{id}', [PartyController::class, 'update']);
+    Route::delete('/parties/{id}', [PartyController::class, 'destroy']);
 });
 
 
