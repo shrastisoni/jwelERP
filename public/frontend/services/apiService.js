@@ -53,5 +53,10 @@ app.factory('ApiService', function ($http) {
         deleteCustomer  :(id)=>$http.delete(baseUrl + '/customers/'+id),
         getCustomerLedger:(id) => $http.get(baseUrl + '/customers/' + id + '/ledger'),
         
+        getPayments :(data) => $http.get(baseUrl + '/payments', data),
+        savePayment: data => $http.post(baseUrl + '/payments', data),
+        updatePayment :(id, data) =>$http.put(baseUrl + '/payments/'+id, data),
+        deletePayment  :(id)=>$http.delete(baseUrl + '/payments/'+id),
+        
     };
 });

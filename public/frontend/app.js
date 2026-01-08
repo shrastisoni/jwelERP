@@ -94,7 +94,14 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'views/customer-ledger.html',
             controller: 'CustomerLedgerController'
         })
-
+        .when('/payments', {
+            templateUrl: 'views/payment.html',
+            controller: 'PaymentController'
+        })
+        .when('/payment-list', {
+            templateUrl: 'views/payment-list.html',
+            controller: 'PaymentListController'
+        })
         .otherwise({ redirectTo: '/login' });
 
     // Attach token automatically

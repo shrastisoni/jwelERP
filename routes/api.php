@@ -14,6 +14,8 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\CustomerLedgerController;
+use App\Http\Controllers\Api\PaymentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -66,8 +68,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/customers/{customer}', [CustomerController::class, 'update']);
     Route::delete('/customers/{customer}', [CustomerController::class, 'destroy']);
     Route::get('/customers/{id}/ledger', [CustomerLedgerController::class, 'ledger']);
-    
+    //Payments
+    Route::post('/payments', [PaymentController::class, 'store']);
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::put('/payments/{id}', [PaymentController::class, 'update']);
+    Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 });
+
 
 // use Illuminate\Http\Request;
 // use Illuminate\Support\Facades\Route;
