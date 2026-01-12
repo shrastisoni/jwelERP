@@ -32,8 +32,6 @@ function closeModal() {
     modal.hide();
 }
     $scope.load = function () {
-        console.log($scope.search);
-        console.log($scope.filterType);
         ApiService.getParties({
             search: $scope.search,
             type: $scope.filterType
@@ -92,4 +90,24 @@ $scope.save = function () {
     };
 
     $scope.load();
+});
+
+
+app.controller('PartyLedgerController', function (
+    $scope, $routeParams, ApiService
+) {
+
+    $scope.ledger = [];
+    $scope.party = {};
+    $scope.balance = 0;
+
+    ApiService.getPartyLedger($routeParams.id).then(res => {
+        $scope.party = res.data.party;
+        $scope.ledger = res.data.ledger;
+
+        $scope.ledger.forEach(l => {
+            $scope.balance += (l.debit - l.credit);
+            l.running_balance = $scope.balance;
+        });
+    });
 });

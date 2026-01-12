@@ -56,7 +56,11 @@
             <tbody>
                 <tr ng-repeat="p in parties">
                     <td>{{$index+1}}</td>
-                    <td>{{p.name}}</td>
+                    <td>
+                        <a href="#!/party/ledger/{{p.id}}" class="text-primary">
+                            {{ p.name }}
+                        </a>
+                    </td>
                     <td>
                         <span class="badge"
                               ng-class="{
@@ -136,6 +140,21 @@
                         <label>Address</label>
                         <input class="form-control"
                                ng-model="form.address">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Opening Balance</label>
+                        <input type="number"
+                            class="form-control"
+                            ng-model="form.opening_balance">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Opening Type</label>
+                        <select class="form-control"
+                                ng-model="form.opening_type">
+                            <option value="debit">Debit</option>
+                            <option value="credit">Credit</option>
+                        </select>
                     </div>
 
                 </div>

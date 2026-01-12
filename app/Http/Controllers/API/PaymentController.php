@@ -10,6 +10,35 @@ use Illuminate\Validation\ValidationException;
 
 class PaymentController extends Controller
 {
+     public function index(Request $request)
+    {
+        $q = Payment::with('party')->orderByDesc('id');
+
+        // 🔍 Party name search
+        if ($request->filled('search')) {
+            $q->whereHas('party', function ($p) use ($request) {
+                $p->where('name', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // Filter Receive / Pay
+        if ($request->filled('type')) {
+            $q->where('type', $request->type);
+        }
+
+        // Date filters (optional but Munim-style)
+        // if ($request->filled('from_date')) {
+        //     $q->whereDate('created_at', '>=', $request->from_date);
+        // }
+
+        // if ($request->filled('to_date')) {
+        //     $q->whereDate('created_at', '<=', $request->to_date);
+        // }
+
+        return response()->json(
+            $q->paginate(20)
+        );
+    }
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -48,25 +77,53 @@ class PaymentController extends Controller
     //         ->paginate(20);
     // }
     
-    public function index(Request $request)
-    {
-        $q = Payment::with('party')->orderByDesc('id');
+    // public function index(Request $request)
+    // {
+    //     $q = Payment::with('party')->orderByDesc('id');
 
-        if ($request->search) {
-            $q->whereHas('party', function ($p) use ($request) {
-                $p->where('name', 'like', '%' . $request->search . '%');
-            });
-        }
+    //     if ($request->search) {
+    //         $q->whereHas('party', function ($p) use ($request) {
+    //             $p->where('name', 'like', '%' . $request->search . '%');
+    //         });
+    //     }
 
-        if ($request->type) {
-            $q->where('type', $request->type);
-        }
+    //     if ($request->type) {
+    //         $q->where('type', $request->type);
+    //     }
 
-        return response()->json(
-            $q->paginate(20)
-        );
-    }
+    //     return response()->json(
+    //         $q->paginate(20)
+    //     );
+    // }
 
+   
+
+    // public function index(Request $request){
+    //     $q = Payment::with('party');
+
+    //     // 🔍 Party search
+    //     if ($request->search) {
+    //         $q->whereHas('party', function ($qr) use ($request) {
+    //             $qr->where('name', 'like', '%' . $request->search . '%');
+    //         });
+    //     }
+
+    //     // Filter by type (customer/supplier)
+    //     if ($request->type) {
+    //         $q->where('type', $request->type);
+    //     }
+
+    //     // Date filters
+    //     if ($request->from_date) {
+    //         $q->whereDate('created_at', '>=', $request->from_date);
+    //     }
+
+    //     if ($request->to_date) {
+    //         $q->whereDate('created_at', '<=', $request->to_date);
+    //     }
+
+    //     return $q->orderBy('created_at', 'desc')->get();
+    // }
     public function update(Request $request, $id)
     {
         $payment = Payment::findOrFail($id);

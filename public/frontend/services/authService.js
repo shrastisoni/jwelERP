@@ -1,5 +1,5 @@
-app.service('AuthService', function ($window) {
-
+app.service('AuthService', function ($window, $http) {
+        var baseUrl = 'http://127.0.0.1:8000/api';
     this.setToken = function (token) { 
         $window.localStorage.setItem('auth_token', token);
     };
@@ -31,5 +31,24 @@ app.service('AuthService', function ($window) {
         $window.localStorage.removeItem('auth_token');
         $window.localStorage.removeItem('auth_user');
     };
+    this.getProfile = function () {
+        return $http.get(baseUrl + '/profile', auth());
+    };
+
+    this.updateProfile = function (data) {
+        return $http.put(baseUrl + '/profile', data, auth());
+    };
+
+    this.changePassword = function (data) {
+        return $http.put(baseUrl + '/change-password', data, auth());
+    };
+
+    function auth() {
+        return {
+            headers: {
+                Authorization: 'Bearer ' + $window.localStorage.getItem('auth_token')
+            }
+        };
+    }
 
 });

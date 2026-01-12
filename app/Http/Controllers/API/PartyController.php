@@ -7,6 +7,9 @@ use App\Models\Party;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
+use App\Models\Sale;
+use App\Models\Payment;
+use App\Models\Purchase;
 class PartyController extends Controller
 {
     // public function index(Request $request)
@@ -78,15 +81,34 @@ public function index(Request $request)
     $parties = $q->orderBy('name')->get();
 
     // CALCULATE OUTSTANDING
+    // $parties->each(function ($p) {
+    //     if ($p->type === 'customer') {
+    //         $p->outstanding =
+    //             ($p->total_sales ?? 0) - ($p->received_amount ?? 0);
+    //     } else {
+    //         $p->outstanding =
+    //             ($p->total_purchases ?? 0) - ($p->paid_amount ?? 0);
+    //     }
+    // });
     $parties->each(function ($p) {
+
+    $opening = $p->opening_type === 'debit'
+            ? $p->opening_balance
+            : -$p->opening_balance;
+
         if ($p->type === 'customer') {
             $p->outstanding =
-                ($p->total_sales ?? 0) - ($p->received_amount ?? 0);
+                $opening
+                + ($p->total_sales ?? 0)
+                - ($p->received_amount ?? 0);
         } else {
             $p->outstanding =
-                ($p->total_purchases ?? 0) - ($p->paid_amount ?? 0);
+                $opening
+                + ($p->total_purchases ?? 0)
+                - ($p->paid_amount ?? 0);
         }
     });
+
 
     return response()->json($parties);
 }
@@ -98,6 +120,8 @@ public function index(Request $request)
             'type'    => 'required|in:customer,supplier',
             'mobile'  => 'nullable|string',
             'address' => 'nullable|string',
+            'opening_balance' => 'nullable|numeric|min:0',
+            'opening_type' => 'required|in:debit,credit',
         ]);
 
         return response()->json(
@@ -116,6 +140,8 @@ public function index(Request $request)
                 'type'    => 'required|in:customer,supplier',
                 'mobile'  => 'nullable|string',
                 'address' => 'nullable|string',
+                'opening_balance' => 'nullable|numeric|min:0',
+                'opening_type' => 'required|in:debit,credit',
             ])
         );
 
@@ -141,4 +167,84 @@ public function index(Request $request)
 
         return response()->json(['message' => 'Party deleted']);
     }
+
+    public function ledger($id)
+{
+    $party = Party::findOrFail($id);
+
+    $rows = collect();
+    $rows = collect();
+
+// OPENING BALANCE
+if ($party->opening_balance > 0) {
+
+    if ($party->opening_type === 'debit') {
+        $rows->push([
+            'date' => null,
+            'particular' => 'Opening Balance',
+            'debit' => $party->opening_balance,
+            'credit' => 0,
+        ]);
+    } else {
+        $rows->push([
+            'date' => null,
+            'particular' => 'Opening Balance',
+            'debit' => 0,
+            'credit' => $party->opening_balance,
+        ]);
+    }
+}
+
+    // SALES (CUSTOMER)
+    if ($party->type === 'customer') {
+        Sale::where('party_id', $id)->each(function ($s) use ($rows) {
+            $rows->push([
+                'date' => $s->invoice_date,
+                'particular' => 'Sale - ' . $s->invoice_no,
+                'debit' => $s->total_amount,
+                'credit' => 0,
+            ]);
+        });
+    }
+
+    // PURCHASES (SUPPLIER)
+    if ($party->type === 'supplier') {
+        Purchase::where('party_id', $id)->each(function ($p) use ($rows) {
+            $rows->push([
+                'date' => $p->invoice_date,
+                'particular' => 'Purchase - ' . $p->invoice_no,
+                'debit' => 0,
+                'credit' => $p->total_amount,
+            ]);
+        });
+    }
+
+    // PAYMENTS
+    Payment::where('party_id', $id)->each(function ($pay) use ($rows, $party) {
+
+        if ($party->type === 'customer') {
+            $rows->push([
+                'date' => $pay->date,
+                'particular' => 'Payment Received',
+                'debit' => 0,
+                'credit' => $pay->amount,
+            ]);
+        } else {
+            $rows->push([
+                'date' => $pay->date,
+                'particular' => 'Payment Paid',
+                'debit' => $pay->amount,
+                'credit' => 0,
+            ]);
+        }
+    });
+
+    $ledger = $rows->sortBy('date')->values();
+
+    return response()->json([
+        'party' => $party,
+        'ledger' => $ledger
+    ]);
+}
+
 }

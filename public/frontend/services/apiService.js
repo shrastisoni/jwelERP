@@ -59,7 +59,7 @@ app.factory('ApiService', function ($http) {
         deleteCustomer  :(id)=>$http.delete(baseUrl + '/customers/'+id),
         getCustomerLedger:(id) => $http.get(baseUrl + '/customers/' + id + '/ledger'),
         
-        getPayments :(data) => $http.get(baseUrl + '/payments', data),
+        getPayments :(params) => $http.get(baseUrl + '/payments',  { params: params }),
         savePayment: data => $http.post(baseUrl + '/payments', data),
         updatePayment :(id, data) =>$http.put(baseUrl + '/payments/'+id, data),
         deletePayment  :(id)=>$http.delete(baseUrl + '/payments/'+id),
@@ -68,11 +68,13 @@ app.factory('ApiService', function ($http) {
         saveParty : data => $http.post(baseUrl + '/parties', data),
         updateParty:(id, data) =>$http.put(baseUrl + '/parties/'+id, data),
         deleteParty  :(id)=>$http.delete(baseUrl + '/parties/'+id),
-
+        getPartyLedger :(id) => $http.get(baseUrl + '/parties/' + id + '/ledger'),
+        
         // getLowStock:() => $http.get(baseUrl + '/dashboard'),
         getRecentSales:() => $http.get(baseUrl + '/dashboard/recent-sales'),
         getLowStock:() => $http.get(baseUrl + '/dashboard/low-stock'),
-        
-       
+        getStockValuation :() => $http.get(baseUrl + '/stock-valuation'),
+        getCategoryValuation :() => $http.get(baseUrl + '/category-valuation'),
+        getStockLedger :(params) => $http.get(baseUrl + '/stock-ledger' , { params: params }),
     };
 });

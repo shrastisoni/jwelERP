@@ -1,0 +1,47 @@
+<div class="page">
+
+    <div class="page-header">
+        <h4>Stock Valuation</h4>
+        <p class="page-subtitle">
+            Closing stock value based on latest purchase rate
+        </p>
+    </div>
+
+    <div class="card">
+        <table class="table munim-table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th class="text-end">Closing Weight (gm)</th>
+                    <th class="text-end">Rate</th>
+                    <th class="text-end">Value</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="row in items">
+                    <td>{{ row.product_name }}</td>
+                    <td class="text-end">{{ row.balance_weight | number:3 }}</td>
+                    <td class="text-end">{{ row.rate | number:2 }}</td>
+                    <td class="text-end">{{ row.value | currency:'₹ ' }}</td>
+                </tr>
+
+                <tr ng-if="items.length === 0">
+                    <td colspan="4" class="text-center text-muted">
+                        No stock available
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot ng-if="items.length">
+                <tr class="table-light">
+                    <th colspan="3" class="text-end">Total Stock Value</th>
+                    <th class="text-end">
+                        {{ total | currency:'₹ ' }}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>

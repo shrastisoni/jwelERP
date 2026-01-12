@@ -26,12 +26,24 @@
             <a href="#!/sales">Sales</a>
         </li>
 
-        <li ng-class="{active: isActive('/payments')}">
-            <a href="#!/payments">Payments</a>
+        <li ng-class="{active: isActive('/payment-list')}">
+            <a href="#!/payment-list">Payments</a>
         </li>
 
         <li ng-class="{active: isActive('/stockledger')}">
             <a href="#!/stockledger">Stock Ledger</a>
+        </li>
+        <li ng-class="{active: isActive('/stock-valuation')}">
+            <a href="#!/stock-valuation">
+                <i class="fa fa-balance-scale"></i> Stock Valuation
+            </a>
+        </li>
+
+        <li>
+            <a href="#!/category-valuation">
+                <i class="fa fa-folder"></i> Category Valuation
+            </a>
+
         </li>
     </ul>
 

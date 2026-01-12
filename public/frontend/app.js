@@ -128,6 +128,26 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'views/parties.html',
             controller: 'PartyController'
         })
+        .when('/party/ledger/:id', {
+            templateUrl: 'views/party-ledger.html',
+            controller: 'PartyLedgerController'
+        })
+        .when('/stock-valuation', {
+            templateUrl: 'views/stock-valuation.html',
+            controller: 'StockValuationController'
+        })
+        .when('/category-valuation', {
+            templateUrl: 'views/category-valuation.html',
+            controller: 'CategoryValuationController'
+        })
+        .when('/profile', {
+            templateUrl: 'views/profile.html',
+            controller: 'ProfileEditController'
+        })
+        .when('/change-password', {
+            templateUrl: 'views/change-password.html',
+            controller: 'ChangePasswordController'
+        })
 
         .otherwise({ redirectTo: '/login' });
 

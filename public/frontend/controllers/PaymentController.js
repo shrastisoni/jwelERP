@@ -1,4 +1,4 @@
-app.controller('PaymentController', function ($scope, ApiService) {
+app.controller('PaymentController', function ($scope, ApiService, $location) {
 
     $scope.payment = {
         party_id: '',
@@ -8,15 +8,17 @@ app.controller('PaymentController', function ($scope, ApiService) {
     };
     $scope.parties = [];
 
-    ApiService.getCustomers().then(res => {
+    ApiService.getParties().then(res => {
         $scope.parties = res.data;
     });
+
     $scope.save = function () {
         ApiService.savePayment($scope.payment)
             .then(() => {
                 alert('Payment saved');
                 $scope.payment.amount = '';
                 load();
+                $location.path('/payment-list')
             })
             .catch(err => {
                 alert(err.data.message || 'Error');
@@ -30,4 +32,25 @@ app.controller('PaymentController', function ($scope, ApiService) {
     }
 
     load();
+
+    // AUTO SELECT RECEIVE / PAY BASED ON PARTY TYPE
+$scope.$watch('payment.party_id', function (partyId) {
+
+    if (!partyId || !$scope.parties) return;
+
+    const party = $scope.parties.find(p => p.id == partyId);
+
+    if (!party) return;
+
+    // Munim logic
+    if (party.type === 'customer') {
+        $scope.payment.type = 'in';   // Receive
+    }
+
+    if (party.type === 'supplier') {
+        $scope.payment.type = 'out';  // Pay
+    }
+
+});
+
 });

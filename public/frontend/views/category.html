@@ -1,25 +1,49 @@
+<div class="page">
 
-<div class="container mt-4">
+    <!-- PAGE HEADER -->
+    <div class="page-header d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h4>Categories</h4>
+            <p class="page-subtitle">Manage product categories</p>
+        </div>
+
+        <!-- <div>
+            <a href="#!/dashboard" class="btn btn-outline-secondary me-2">
+                ← Back
+            </a>
+            <button class="btn btn-primary"
+                    ng-click="editing=false; category={};">
+                + Add Category
+            </button>
+        </div> -->
+    </div>
 
     <div class="row">
 
-        <!-- ADD CATEGORY -->
+        <!-- ADD / EDIT CATEGORY -->
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header bg-primary text-white">
-                     {{ editing ? 'Update' : 'Add' }} Category
+
+                <div class="card-header">
+                    <strong>
+                        {{ editing ? 'Update Category' : 'Add Category' }}
+                    </strong>
                 </div>
+
                 <div class="card-body">
 
+                    <label class="form-label">Category Name</label>
                     <input type="text"
-                           class="form-control mb-2"
-                           placeholder="Category Name"
+                           class="form-control mb-3"
+                           placeholder="Enter category name"
                            ng-model="category.name">
 
-                    <button class="btn btn-success w-100"
-                            ng-click="save()">
-                         {{ editing ? 'Update' : 'Save' }}
-                    </button>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-success"
+                                ng-click="save()">
+                            {{ editing ? 'Update' : 'Save' }}
+                        </button>
+                    </div>
 
                 </div>
             </div>
@@ -28,50 +52,62 @@
         <!-- CATEGORY LIST -->
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header bg-dark text-white">
-                    Category List
+
+                <div class="card-header d-flex justify-content-between">
+                    <strong>Category List</strong>
+
+                    <!-- SEARCH (OPTIONAL) -->
+                    <input type="text"
+                           class="form-control form-control-sm w-50"
+                           placeholder="Search category..."
+                           ng-model="search">
                 </div>
-                <table class="table mb-0">
+
+                <table class="table munim-table mb-0">
                     <thead>
                         <tr>
                             <th>Name</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th class="text-end">Action</th>
                         </tr>
                     </thead>
+
                     <tbody>
-                        <tr ng-repeat="c in categories">
+                        <tr ng-repeat="c in categories | filter:search">
                             <td>{{ c.name }}</td>
+
                             <td>
                                 <span class="badge"
                                       ng-class="c.is_active ? 'bg-success' : 'bg-danger'">
                                     {{ c.is_active ? 'Active' : 'Inactive' }}
                                 </span>
                             </td>
-                            <td>
-                                <button class="btn btn-sm btn-primary"
+
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-primary me-1"
                                         ng-click="edit(c)">
                                     Edit
                                 </button>
 
-                                <button class="btn btn-sm btn-danger"
+                                <button class="btn btn-sm btn-outline-danger"
                                         ng-click="delete(c)">
                                     Delete
                                 </button>
                             </td>
                         </tr>
+
                         <tr ng-if="categories.length === 0">
-                            <td colspan="2" class="text-center">
+                            <td colspan="3"
+                                class="text-center text-muted">
                                 No categories found
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
         </div>
 
     </div>
 
 </div>
-
-

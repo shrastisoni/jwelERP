@@ -84,3 +84,19 @@ app.controller('CategoryStockController', function ($scope, ApiService) {
     });
 
 });
+
+app.controller('CategoryValuationController', function ($scope, ApiService) {
+
+    $scope.rows = [];
+    $scope.grandTotal = 0;
+
+    ApiService.getCategoryValuation().then(res => {
+        $scope.rows = res.data;
+
+        $scope.grandTotal = $scope.rows.reduce((sum, r) => {
+            return sum + parseFloat(r.total_value || 0);
+        }, 0);
+    });
+
+});
+

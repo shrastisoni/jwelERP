@@ -1,0 +1,52 @@
+<div class="page">
+
+    <div class="page-header">
+        <h4>Category-wise Stock Valuation</h4>
+        <p class="page-subtitle">
+            Closing stock value grouped by category
+        </p>
+    </div>
+
+    <div class="card">
+        <table class="table munim-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th class="text-end">Total Weight (gm)</th>
+                    <th class="text-end">Stock Value</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="row in rows">
+                    <td>{{ row.category_name }}</td>
+
+                    <td class="text-end">
+                        {{ row.total_weight | number:3 }}
+                    </td>
+
+                    <td class="text-end">
+                        {{ row.total_value | currency:'₹ ' }}
+                    </td>
+                </tr>
+
+                <tr ng-if="rows.length === 0">
+                    <td colspan="3" class="text-center text-muted">
+                        No data available
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot ng-if="rows.length">
+                <tr class="table-light">
+                    <th class="text-end">Grand Total</th>
+                    <th></th>
+                    <th class="text-end">
+                        {{ grandTotal | currency:'₹ ' }}
+                    </th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>

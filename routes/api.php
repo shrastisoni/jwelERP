@@ -15,8 +15,9 @@ use App\Http\Controllers\Api\ReportController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\CustomerLedgerController;
 use App\Http\Controllers\Api\PaymentController;
-
-
+use App\Http\Controllers\Api\StockValuationController;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\CategoryValuationController; 
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -78,18 +79,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/payments/{id}', [PaymentController::class, 'update']);
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 
-      Route::get('/dashboard/stock-value', [DashboardController::class, 'stockValue']);
+    Route::get('/dashboard/stock-value', [DashboardController::class, 'stockValue']);
     Route::get('/dashboard/total-sales', [DashboardController::class, 'totalSales']);
     Route::get('/dashboard/profit', [DashboardController::class, 'totalProfit']);
     Route::get('/dashboard/summary', [DashboardController::class, 'summary']);
-Route::get('/dashboard/recent-sales', [DashboardController::class, 'recentSales']);
-Route::get('/dashboard/low-stock', [DashboardController::class, 'lowStock']);
+    Route::get('/dashboard/recent-sales', [DashboardController::class, 'recentSales']);
+    Route::get('/dashboard/low-stock', [DashboardController::class, 'lowStock']);
 
     Route::get('/parties', [PartyController::class, 'index']);
     Route::post('/parties', [PartyController::class, 'store']);
     Route::put('/parties/{id}', [PartyController::class, 'update']);
     Route::delete('/parties/{id}', [PartyController::class, 'destroy']);
-});
+    Route::get('/parties/{id}/ledger', [PartyController::class, 'ledger']);
+    Route::get('/stock-valuation', [StockValuationController::class, 'index']);
+    Route::get('/category-valuation', [CategoryValuationController::class, 'index']);
+    Route::get('/profile', [ProfileController::class, 'show']);
+    Route::put('/profile', [ProfileController::class, 'update']);
+    Route::put('/change-password', [ProfileController::class, 'changePassword']);
+    });
 
 
 // use Illuminate\Http\Request;

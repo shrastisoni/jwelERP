@@ -1,0 +1,77 @@
+
+<div class="container mt-4">
+
+    <div class="row">
+
+        <!-- ADD CATEGORY -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                     {{ editing ? 'Update' : 'Add' }} Category
+                </div>
+                <div class="card-body">
+
+                    <input type="text"
+                           class="form-control mb-2"
+                           placeholder="Category Name"
+                           ng-model="category.name">
+
+                    <button class="btn btn-success w-100"
+                            ng-click="save()">
+                         {{ editing ? 'Update' : 'Save' }}
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- CATEGORY LIST -->
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    Category List
+                </div>
+                <table class="table mb-0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="c in categories">
+                            <td>{{ c.name }}</td>
+                            <td>
+                                <span class="badge"
+                                      ng-class="c.is_active ? 'bg-success' : 'bg-danger'">
+                                    {{ c.is_active ? 'Active' : 'Inactive' }}
+                                </span>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary"
+                                        ng-click="edit(c)">
+                                    Edit
+                                </button>
+
+                                <button class="btn btn-sm btn-danger"
+                                        ng-click="delete(c)">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-if="categories.length === 0">
+                            <td colspan="2" class="text-center">
+                                No categories found
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
