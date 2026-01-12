@@ -26,6 +26,9 @@ app.factory('ApiService', function ($http) {
         getStockLedger: () => $http.get(baseUrl + '/stock-ledger'),
         getProductLedger: data =>$http.get(baseUrl + '/stock-ledger/'+data),
         saveSale: data => $http.post(baseUrl + '/sales', data),
+        getSales :(params) => $http.get(baseUrl + '/sales' , { params: params }),
+        getSale  :(id) =>$http.get(baseUrl + '/sales/'+id),
+        
         savePurchase:data => $http.post(baseUrl + '/purchases', data),
         // getPurchases: () => $http.get(baseUrl + '/purchases'),
         getPurchases :(params) => $http.get(baseUrl + '/purchases' , { params: params }),

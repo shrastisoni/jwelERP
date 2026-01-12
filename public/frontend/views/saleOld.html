@@ -1,0 +1,122 @@
+<!-- <div class="card">
+    <div class="card-header bg-success text-white">
+        New Sale
+    </div>
+
+    <div class="card-body">
+
+        <div class="form-group">
+            <label>Customer</label>
+            <select class="form-control"
+                    ng-model="sale.party_id"
+                    ng-options="p.id as p.name for p in parties">
+                <option value="">Select Customer</option>
+            </select>
+        </div>
+
+        <table class="table table-bordered mt-3">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Weight (gm)</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="item in sale.items">
+                    <td>
+                        <select class="form-control"
+                                ng-model="item.product_id"
+                                ng-options="p.id as p.name for p in products">
+                        </select>
+                    </td>
+
+                    <td>
+                        <input type="number" class="form-control"
+                               ng-model="item.weight"
+                               ng-change="calculate(item)">
+                    </td>
+
+                    <td>
+                        <input type="number" class="form-control"
+                               ng-model="item.rate"
+                               ng-change="calculate(item)">
+                    </td>
+
+                    <td>{{ item.amount | number:2 }}</td>
+
+                    <td>
+                        <button class="btn btn-danger btn-sm"
+                                ng-click="removeItem($index)">X</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="btn btn-secondary" ng-click="addItem()">Add Item</button>
+
+        <h4 class="mt-3">Total: ₹ {{ sale.total_amount | number:2 }}</h4>
+
+        <button class="btn btn-success mt-2" ng-click="saveSale()">Save Sale</button>
+
+    </div>
+</div> -->
+<h3>New Sale</h3>
+
+<div class="mb-3">
+    <label>Party</label>
+    <!-- <select class="form-control" ng-model="sale.party_id"
+            ng-options="p.id as p.name for p in parties">
+    </select> -->
+    <select class="form-control"
+        ng-model="sale.party_id"
+        ng-options="p.id as p.name for p in parties"
+        required>
+    <option value="">-- Select Party --</option>
+</select>
+</div>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Product</th>
+        <th>Weight</th>
+        <th>Rate</th>
+        <th>Amount</th>
+        <th></th>
+    </tr>
+
+    <tr ng-repeat="item in sale.items">
+        <td>
+            <select class="form-control"
+                    ng-model="item.product_id"
+                    ng-options="p.id as p.name for p in products">
+            </select>
+        </td>
+        <td>
+            <input type="number" class="form-control"
+                   ng-model="item.weight"
+                   ng-change="calc(item)">
+        </td>
+        <td>
+            <input type="number" class="form-control"
+                   ng-model="item.rate"
+                   ng-change="calc(item)">
+        </td>
+        <td>{{item.amount}}</td>
+        <td>
+            <button class="btn btn-sm btn-danger"
+                    ng-click="removeItem($index)">X</button>
+        </td>
+    </tr>
+</table>
+
+<button class="btn btn-sm btn-secondary" ng-click="addItem()">Add Item</button>
+
+<h4 class="mt-3">Total: {{sale.total_amount}}</h4>
+
+<button class="btn btn-success mt-2" ng-click="save()">Save Sale</button>
+
+<p class="text-success mt-2">{{message}}</p>

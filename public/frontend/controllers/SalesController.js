@@ -1,4 +1,4 @@
-app.controller('SalesController', function ($scope, ApiService) {
+app.controller('SalesController', function ($scope, ApiService, $location) {
 
     $scope.sale = {
         party_id: null,
@@ -39,14 +39,12 @@ app.controller('SalesController', function ($scope, ApiService) {
     };
 
     $scope.saveSale = function () {
-
-        console.log('Sending sale:', angular.copy($scope.sale));
-
-        ApiService.saveSale($scope.sale)
+       ApiService.saveSale($scope.sale)
             .then(function (res) {
                 alert(res.data.message || 'Sale Saved');
                 $scope.sale.items = [];
                 $scope.addItem();
+                $location.path('/sales');
             })
             .catch(function (err) {
                 console.error(err);
@@ -57,6 +55,63 @@ app.controller('SalesController', function ($scope, ApiService) {
                 );
             });
     };
-
+    $scope.changeLocation = function(){
+        $location.path('/sales');
+    };
     $scope.addItem();
+});
+
+app.controller('SalesListController', function ($scope, ApiService, $location) {
+
+    $scope.sales = [];
+    $scope.customers = [];
+
+    $scope.filters = {};
+
+    ApiService.getCustomers().then(res => {
+        $scope.customers = res.data;
+    });
+
+    $scope.load = function () {
+        ApiService.getSales($scope.filters).then(res => {
+            $scope.sales = res.data;
+        });
+    };
+
+    $scope.reset = function () {
+        $scope.filters = {};
+        $scope.load();
+    };
+
+    $scope.totalAmount = function () {
+        return $scope.sales.reduce((t, s) => t + parseFloat(s.total_amount), 0);
+    };
+
+    $scope.view = function (id) {
+        $location.path('/sale/view/' + id);
+    };
+
+    $scope.load();
+});
+// app.controller('SaleViewController', function ($scope, $routeParams, ApiService) {
+
+//     ApiService.getSale($routeParams.id).then(res => {
+//         $scope.sale = res.data;
+//     });
+
+// });
+
+app.controller('SaleViewController', function ($scope, $routeParams, ApiService) {
+
+    $scope.sale = {};
+    $scope.totalWeightOut = 0;
+
+    ApiService.getSale($routeParams.id).then(function (res) {
+        $scope.sale = res.data;
+
+        $scope.totalWeightOut = $scope.sale.items.reduce(
+            (t, i) => t + parseFloat(i.weight), 0
+        );
+    });
+
 });

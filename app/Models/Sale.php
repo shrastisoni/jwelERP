@@ -20,4 +20,12 @@ class Sale extends Model
     public function party() {
         return $this->belongsTo(Party::class);
     }
+
+
+    public function ledgers()
+    {
+        return $this->hasMany(StockLedger::class, 'reference_id')
+            ->where('type', 'sale');
+    }
+
 }

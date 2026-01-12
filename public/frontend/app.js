@@ -44,10 +44,19 @@ app.config(function ($routeProvider, $httpProvider) {
             `,
             controller: 'StockController'
         })
-        .when('/sales', {
+        .when('/sale', {
             templateUrl: 'views/sales.html',
             controller: 'SalesController'
         })
+        .when('/sales', {
+            templateUrl: 'views/sales-list.html',
+            controller: 'SalesListController'
+        })
+        .when('/sale/view/:id', {
+            templateUrl: 'views/sale-view.html',
+            controller: 'SaleViewController'
+        })
+
         .when('/purchase', {
             templateUrl: 'views/purchase.html',
             controller: 'PurchaseController'

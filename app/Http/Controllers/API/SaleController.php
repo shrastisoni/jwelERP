@@ -18,11 +18,33 @@ class SaleController extends Controller
     /**
      * List all sales
      */
-    public function index()
+    // public function index()
+    // {
+    //     return Sale::with('items.product', 'party')
+    //         ->latest()
+    //         ->get();
+    // }
+    public function index(Request $request)
     {
-        return Sale::with('items.product', 'party')
-            ->latest()
-            ->get();
+        $q = Sale::with('party');
+
+        if ($request->from_date) {
+            $q->whereDate('invoice_date', '>=', $request->from_date);
+        }
+
+        if ($request->to_date) {
+            $q->whereDate('invoice_date', '<=', $request->to_date);
+        }
+
+        if ($request->party_id) {
+            $q->where('party_id', $request->party_id);
+        }
+
+        if ($request->search) {
+            $q->where('invoice_no', 'like', "%{$request->search}%");
+        }
+
+        return $q->orderBy('invoice_date', 'desc')->get();
     }
 
     /**
@@ -146,4 +168,23 @@ class SaleController extends Controller
             ], 500);
         }
     }
+
+    // public function show(Sale $sale)
+    // {
+    //     return $sale->load([
+    //         'party',
+    //         'items.product'
+    //     ]);
+    // }
+    public function show($id)
+    {
+        $sale = Sale::with([
+            'party',
+            'items.product',
+            'ledgers.product'
+        ])->findOrFail($id);
+
+        return response()->json($sale);
+    }
+
 }
