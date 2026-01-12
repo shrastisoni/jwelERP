@@ -1,0 +1,23 @@
+<div class="app-wrapper">
+    <div ng-include="'views/partials/navbar.html'"></div>
+    <div class="d-flex">
+
+        <!-- SIDEBAR -->
+        <!-- <div class="sidebar" ng-controller="SidebarController" ng-if="isLoggedIn"> 
+            <a href="#!/dashboard">Dashboard</a>
+            <a href="#!/parties">Parties</a>
+            <a href="#!/products">Products</a>
+            <a href="#!/purchase">Purchase</a>
+            <a href="#!/sales">Sales</a>
+            <a href="#!/payments">Payments</a>
+            <a href="#!/reports">Reports</a>
+        </div> -->
+        <!-- SIDEBAR -->
+        <div ng-include="'views/partials/sidebar.html'"></div>
+        <!-- MAIN CONTENT -->
+        <div class="content p-3">
+            <ng-view></ng-view>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,84 @@
+<div class="page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div>
+            <h4>Purchase Details</h4>
+            <p class="page-subtitle">
+                Invoice No: <strong>{{ purchase.invoice_no }}</strong>
+            </p>
+        </div>
+
+        <div class="page-actions">
+            <a href="#!/purchases" class="btn btn-outline-secondary">
+                Back
+            </a>
+        </div>
+    </div>
+
+    <!-- PURCHASE INFO -->
+    <div class="card mb-3">
+        <div class="row g-3">
+
+            <div class="col-md-4">
+                <strong>Supplier</strong><br>
+                {{ purchase.party.name }}
+            </div>
+
+            <div class="col-md-4">
+                <strong>Invoice Date</strong><br>
+                {{ purchase.invoice_date | date:'dd-MM-yyyy' }}
+            </div>
+
+            <div class="col-md-4">
+                <strong>Total Amount</strong><br>
+                ₹ {{ purchase.total_amount | number:2 }}
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ITEMS -->
+    <div class="card">
+        <table class="table munim-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th class="text-right">Qty</th>
+                    <th class="text-right">Weight</th>
+                    <th class="text-right">Rate</th>
+                    <th class="text-right">Amount</th>
+                    <th class="text-right">Stock Impact</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr ng-repeat="i in purchase.items">
+                    <td>{{$index + 1}}</td>
+                    <td>{{ i.product.name }}</td>
+                    <td class="text-right">{{ i.quantity }}</td>
+                    <td class="text-right">{{ i.weight }}</td>
+                    <td class="text-right">₹ {{ i.rate }}</td>
+                    <td class="text-right">
+                        ₹ {{ i.amount | number:2 }}
+                    </td>
+                    <td class="text-right text-success">
+                        +{{ i.weight }} gm
+                    </td>
+                </tr>
+            </tbody>
+
+            <tfoot>
+                <tr>
+                    <th colspan="5" class="text-end">Total</th>
+                    <th class="text-right">
+                        ₹ {{ purchase.total_amount | number:2 }}
+                    </th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>

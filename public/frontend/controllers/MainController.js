@@ -13,6 +13,18 @@ app.controller('MainController', function ($rootScope, $scope, $location,AuthSer
         $scope.user = null;
         $scope.isLoggedIn = AuthService.isLoggedIn();
     };
+     $scope.showUserMenu = false;
+
+    // Sidebar toggle
+    $scope.toggleSidebar = function () {
+        $rootScope.sidebarCollapsed = !$rootScope.sidebarCollapsed;
+        localStorage.setItem('sidebarCollapsed', $rootScope.sidebarCollapsed);
+    };
+
+    // User dropdown
+    $scope.toggleUserMenu = function () {
+        $scope.showUserMenu = !$scope.showUserMenu;
+    };
     // $scope.isActive = function (page) {
     //     return $location.path() == page;
     // };

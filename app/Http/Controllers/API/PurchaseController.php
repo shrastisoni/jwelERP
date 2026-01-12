@@ -14,9 +14,32 @@ use App\Models\Product;
 use Illuminate\Validation\ValidationException;
 class PurchaseController extends Controller
 {
-    public function index()
+    // public function index()
+    // {
+    //    //old code
+    //     // return Purchase::with('items.product','party')->latest()->get();
+    // }
+    public function index(Request $request)
     {
-        return Purchase::with('items.product','party')->latest()->get();
+        $q = Purchase::with('party');
+
+        if ($request->from_date) {
+            $q->whereDate('invoice_date', '>=', $request->from_date);
+        }
+
+        if ($request->to_date) {
+            $q->whereDate('invoice_date', '<=', $request->to_date);
+        }
+
+        if ($request->party_id) {
+            $q->where('party_id', $request->party_id);
+        }
+
+        if ($request->search) {
+            $q->where('invoice_no', 'like', "%{$request->search}%");
+        }
+
+        return $q->orderBy('invoice_date', 'desc')->get();
     }
 
     // public function store(Request $request)
@@ -192,13 +215,25 @@ class PurchaseController extends Controller
                     /* ---------------------------
                     STOCK LEDGER
                     ----------------------------*/
+                    // StockLedger::create([
+                    //     'product_id'     => $item['product_id'],
+                    //     'transaction_type' => 'purchase',
+                    //     'reference_id'   => $purchase->id,
+                    //     'weight_in'      => $item['weight'],
+                    //     'weight_out'     => 0,
+                    //     'balance'        => $stock->weight,
+                    // ]);
                     StockLedger::create([
                         'product_id'     => $item['product_id'],
-                        'transaction_type' => 'purchase',
+                        'type'           => 'purchase',        // ✅ REQUIRED
                         'reference_id'   => $purchase->id,
+                        'qty_in'         => $item['quantity'] ?? 0,
+                        'qty_out'        => 0,
                         'weight_in'      => $item['weight'],
                         'weight_out'     => 0,
-                        'balance'        => $stock->weight,
+                        'balance_qty'    => $stock->quantity,
+                        'balance_weight' => $stock->weight,
+                        'rate'           => $item['rate'],     // ✅ IMPORTANT for valuation
                     ]);
 
                     $totalAmount += $amount;

@@ -1,58 +1,78 @@
+<div class="page">
 
-<div class="container mt-4">
-
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Purchase Entry</h4>
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div>
+            <h4>Purchase Entry</h4>
+            <p class="page-subtitle">Record supplier purchases</p>
         </div>
 
-        <div class="card-body">
+        <div class="page-actions">
+            <button class="btn btn-outline-secondary" ng-click="addItem()">
+                + Add Item
+            </button>
+        </div>
+        <div class="page-actions">
+        <button class="btn btn-outline-secondary"
+                    ng-click="changeLocation()">
+                Back to List
+            </button>
+        </div>
 
-            <!-- Supplier -->
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="form-label">Supplier</label>
-                    <select class="form-select"
-                            ng-model="purchase.party_id"
-                            ng-options="p.id as p.name for p in parties">
-                        <option value="">-- Select Supplier --</option>
-                    </select>
-                </div>
+    </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Invoice Date</label>
-                    <input type="date"
-                           class="form-control"
-                           ng-model="purchase.invoice_date">
-                </div>
+    <!-- HEADER CARD -->
+    <div class="card mb-3">
+        <div class="form-grid">
+
+            <div>
+                <label>Supplier</label>
+                <select class="form-control"
+                        ng-model="purchase.party_id"
+                        ng-options="p.id as p.name for p in parties">
+                    <option value="">Select Supplier</option>
+                </select>
             </div>
 
-            <!-- Items -->
-            <table class="table table-bordered table-striped">
-                <thead class="table-light">
-                <tr>
-                    <th style="width:25%">Product</th>
-                    <th style="width:10%">Qty</th>
-                    <th style="width:15%">Weight</th>
-                    <th style="width:15%">Rate</th>
-                    <th style="width:15%">Amount</th>
-                    <th style="width:5%"></th>
-                </tr>
-                </thead>
+            <div>
+                <label>Invoice Date</label>
+                <input type="date"
+                       class="form-control"
+                       ng-model="purchase.invoice_date">
+            </div>
 
-                <tbody>
+        </div>
+    </div>
+
+    <!-- ITEMS CARD -->
+    <div class="card">
+
+        <table class="table munim-table">
+            <thead>
+                <tr>
+                    <th style="width:30%">Product</th>
+                    <th class="text-right">Qty</th>
+                    <th class="text-right">Weight</th>
+                    <th class="text-right">Rate</th>
+                    <th class="text-right">Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
                 <tr ng-repeat="item in purchase.items">
+
                     <td>
-                        <select class="form-select"
+                        <select class="form-control"
                                 ng-model="item.product_id"
                                 ng-options="p.id as p.name for p in products">
-                            <option value="">-- Product --</option>
+                            <option value="">Select Product</option>
                         </select>
                     </td>
 
                     <td>
                         <input type="number"
-                               class="form-control"
+                               class="form-control text-right"
                                ng-model="item.quantity"
                                min="1">
                     </td>
@@ -60,59 +80,61 @@
                     <td>
                         <input type="number"
                                step="0.001"
-                               class="form-control"
+                               class="form-control text-right"
                                ng-model="item.weight">
                     </td>
 
                     <td>
                         <input type="number"
-                               class="form-control"
+                               class="form-control text-right"
                                ng-model="item.rate">
                     </td>
 
-                    <td class="text-end">
+                    <td class="text-right">
                         {{ (item.weight * item.rate) | number:2 }}
                     </td>
 
                     <td class="text-center">
-                        <button class="btn btn-danger btn-sm"
+                        <button class="btn btn-sm btn-danger"
                                 ng-click="removeItem($index)">
                             ✕
                         </button>
                     </td>
+
                 </tr>
-                </tbody>
-            </table>
 
-            <button class="btn btn-secondary mb-3" ng-click="addItem()">
-                + Add Item
+                <tr ng-if="purchase.items.length === 0">
+                    <td colspan="6" class="text-center text-muted">
+                        No items added
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <!-- TOTAL + ACTION -->
+    <div class="card mt-3">
+        <div class="row align-items-center">
+
+            <div class="col-md-6">
+                <strong>Total Amount</strong>
+            </div>
+
+            <div class="col-md-6 text-end">
+                <h5 class="mb-0">
+                    ₹ {{ totalAmount() | number:2 }}
+                </h5>
+            </div>
+
+        </div>
+
+        <div class="form-actions mt-3">
+            <button class="btn btn-success"
+                    ng-click="savePurchase()">
+                Save Purchase
             </button>
-
-            <!-- Total -->
-            <div class="row">
-                <div class="col-md-6 offset-md-6">
-                    <table class="table">
-                        <tr>
-                            <th>Total Amount</th>
-                            <th class="text-end">
-                                {{ totalAmount() | number:2 }}
-                            </th>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Actions -->
-            <div class="text-end">
-                <button class="btn btn-success"
-                        ng-click="savePurchase()">
-                    Save Purchase
-                </button>
-            </div>
-
         </div>
     </div>
 
 </div>
-
-

@@ -1,0 +1,124 @@
+<div class="page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <div>
+            <h4>Purchase List</h4>
+            <p class="page-subtitle">View and manage purchase entries</p>
+        </div>
+
+        <div class="page-actions">
+            <a href="#!/purchase" class="btn btn-primary">
+                + New Purchase
+            </a>
+        </div>
+    </div>
+
+    <!-- FILTER CARD -->
+    <div class="card mb-3">
+        <div class="row g-2">
+
+            <div class="col-md-3">
+                <label>From Date</label>
+                <input type="date"
+                       class="form-control"
+                       ng-model="filters.from_date">
+            </div>
+
+            <div class="col-md-3">
+                <label>To Date</label>
+                <input type="date"
+                       class="form-control"
+                       ng-model="filters.to_date">
+            </div>
+
+            <div class="col-md-3">
+                <label>Supplier</label>
+                <select class="form-control"
+                        ng-model="filters.party_id"
+                        ng-options="p.id as p.name for p in parties">
+                    <option value="">All Suppliers</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <label>Search</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Invoice / Supplier"
+                       ng-model="filters.search">
+            </div>
+
+        </div>
+
+        <div class="form-actions mt-3">
+            <button class="btn btn-primary" ng-click="load()">
+                Apply Filters
+            </button>
+
+            <button class="btn btn-secondary" ng-click="resetFilters()">
+                Reset
+            </button>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table munim-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Invoice No</th>
+                        <th>Date</th>
+                        <th>Supplier</th>
+                        <th class="text-right">Amount</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr ng-repeat="p in purchases">
+                        <td>{{$index + 1}}</td>
+                        <td>{{ p.invoice_no }}</td>
+                        <td>{{ p.invoice_date | date:'dd-MM-yyyy' }}</td>
+                        <td>{{ p.party.name }}</td>
+                        <td class="text-right">
+                            ₹ {{ p.total_amount | number:2 }}
+                        </td>
+                        <td class="text-right">
+                            <button class="btn btn-sm btn-outline-primary"
+                                    ng-click="view(p.id)">
+                                View
+                            </button>
+
+                            <button class="btn btn-sm btn-outline-danger"
+                                    ng-click="remove(p.id)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr ng-if="purchases.length === 0">
+                        <td colspan="6"
+                            class="text-center text-muted py-3">
+                            No purchases found
+                        </td>
+                    </tr>
+                </tbody>
+
+                <!-- TOTAL FOOTER -->
+                <tfoot ng-if="purchases.length">
+                    <tr>
+                        <th colspan="4" class="text-end">Total</th>
+                        <th class="text-right">
+                            ₹ {{ totalAmount() | number:2 }}
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+</div>

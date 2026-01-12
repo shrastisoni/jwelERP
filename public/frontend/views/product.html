@@ -1,125 +1,173 @@
+<!-- ================= PRODUCT LIST ================= -->
+<div class="container-fluid mt-3" ng-show="showAddSec">
 
-<div class="container mt-4" ng-show="showAddSec">
-    <h3>Products</h3>
-     <div class="d-flex justify-content-between align-items-center mb-4">
-        
-        <a ng-click="showAddSec=false" class="btn btn-primary">
-            <i class="bi bi-plus-circle"></i> Add New Item
-        </a>
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold">Products</h4>
+        <button class="btn btn-primary" ng-click="showAddSec=false">
+            <i class="bi bi-plus-circle"></i> Add Product
+        </button>
     </div>
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Metal</th>
-            <th>Weight</th>
-            <th>Price</th>
-            <th>Purity</th>
-            <th>Status</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
 
-        <tbody>
-        <tr ng-repeat="p in products">
-            <td>{{$index + 1}}</td>
-            <td>{{p.name}}</td>
-            <td>{{p.category.name}}</td>
-            <td class="text-capitalize">{{p.metal}}</td>
-            <td>{{p.weight}}</td>
-            <td>{{p.price}}</td>
-            <td>{{p.purity}}k</td>
-            <td>
-                <span class="badge"
-                    ng-class="p.is_active ? 'bg-success' : 'bg-secondary'">
-                    {{ p.is_active ? 'Active' : 'Inactive' }}
-                </span>
-            </td>
-
-            <td>
-                <button class="btn btn-sm"
-                        ng-class="p.is_active ? 'btn-danger' : 'btn-success'"
-                        ng-click="toggleStatus(p)">
-                    {{ p.is_active ? 'Deactivate' : 'Activate' }}
-                </button>
-                <button ng-click="getProduct(p.id)"
-                class="btn btn-sm btn-warning">
-                    Edit
-                </button>
-                <button class="btn btn-sm btn-danger"
-                    ng-click="deleteProduct(p.id)">
-                    Delete
-                </button>
-            </td>
-
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="container mt-4" ng-show="!showAddSec">
-    <h3>{{isEdit ? 'Edit' : 'Add'}} Product</h3>
-
-    <div class="card p-3">
-
-        <div class="mb-2">
-            <label>Product Name</label>
-            <input type="text" class="form-control" ng-model="product.name">
+    <!-- Search -->
+    <div class="card mb-3">
+        <div class="card-body p-2">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Search product..."
+                   ng-model="searchText">
         </div>
+    </div>
 
-        <div class="mb-2">
-            <label>Category</label>
-            <select class="form-control" ng-model="product.category_id"
-                    ng-options="c.id as c.name for c in categories">
-                <option value="">Select Category</option>
-            </select>
-        </div>
+    <!-- Table -->
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Metal</th>
+                        <th>Purity</th>
+                        <th>Weight</th>
+                        <th>Price</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
 
-        <div class="mb-2">
-            <label>Metal</label>
-            <select class="form-control" ng-model="product.metal">
-                <option value="gold">Gold</option>
-                <option value="silver">Silver</option>
-            </select>
-        </div>
-        <div class="mb-2">
-            <label>Purity</label>
-            <select class="form-control" ng-model="product.purity">
-                <option value="24k">24K</option>
-                <option value="22k">22K</option>
-                <option value="18k">18K</option>
-                <option value="14k">14K</option>
-            </select> 
-        </div>
-        <div class="mb-2">
-            <label>Weight</label>
-            <input type="number" step="0.001" class="form-control"
-                   ng-model="product.weight">
-        </div>
+                <tbody>
+                    <tr ng-repeat="p in products | filter:searchText">
+                        <td>{{$index + 1}}</td>
+                        <td class="fw-semibold">{{p.name}}</td>
+                        <td>{{p.category.name}}</td>
+                        <td class="text-capitalize">{{p.metal}}</td>
+                        <td>{{p.purity}}</td>
+                        <td>{{p.weight}}</td>
+                        <td>₹ {{p.price}}</td>
 
-        <div class="mb-2">
-            <label>Price</label>
-            <input type="number" step="0.01" class="form-control"
-                   ng-model="product.price">
-        </div>
-        <!-- <div class="mb-2">
-            <label>Actions</label>
-            <a href="" ng-click="updateProduct(product.id)"
-                class="btn btn-sm btn-warning">
-                Edit
-            </a>
-        </div> -->
-        <button ng-if="isEdit" class="btn btn-primary mt-2"
-                ng-click="updateProduct(product.id)">
-            Update Product
-        </button>
-        <button ng-if="!isEdit" class="btn btn-primary mt-2"
-                ng-click="saveProduct()">
-            Save Product
-        </button>
+                        <!-- Status -->
+                        <td>
+                            <span class="badge"
+                                  ng-class="p.is_active ? 'bg-success' : 'bg-secondary'">
+                                {{ p.is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
 
+                        <!-- Actions -->
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-outline-primary"
+                                    ng-click="getProduct(p.id)">
+                                Edit
+                            </button>
+
+                            <button class="btn btn-sm"
+                                    ng-class="p.is_active ? 'btn-outline-danger' : 'btn-outline-success'"
+                                    ng-click="toggleStatus(p)">
+                                {{ p.is_active ? 'Deactivate' : 'Activate' }}
+                            </button>
+
+                            <button class="btn btn-sm btn-outline-danger"
+                                    ng-click="deleteProduct(p.id)">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr ng-if="products.length === 0">
+                        <td colspan="9" class="text-center text-muted py-4">
+                            No products found
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 
+<!-- ================= ADD / EDIT PRODUCT ================= -->
+<div class="container-fluid mt-3" ng-show="!showAddSec">
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                {{isEdit ? 'Edit Product' : 'Add Product'}}
+            </h5>
+            <button class="btn btn-sm btn-secondary" ng-click="showAddSec=true">
+                Back
+            </button>
+        </div>
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Product Name</label>
+                    <input type="text" class="form-control"
+                           ng-model="product.name">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Category</label>
+                    <select class="form-control"
+                            ng-model="product.category_id"
+                            ng-options="c.id as c.name for c in categories">
+                        <option value="">Select Category</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Metal</label>
+                    <select class="form-control" ng-model="product.metal">
+                        <option value="">Select Metal</option>
+                        <option value="gold">Gold</option>
+                        <option value="silver">Silver</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Purity</label>
+                    <select class="form-control" ng-model="product.purity">
+                        <option value="">Select Purity</option>
+                        <option value="24K">24K</option>
+                        <option value="22K">22K</option>
+                        <option value="18K">18K</option>
+                        <option value="14K">14K</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Weight</label>
+                    <input type="number" step="0.001"
+                           class="form-control"
+                           ng-model="product.weight">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Price</label>
+                    <input type="number" step="0.01"
+                           class="form-control"
+                           ng-model="product.price">
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card-footer text-end bg-white">
+            <button ng-if="isEdit"
+                    class="btn btn-primary"
+                    ng-click="updateProduct(product.id)">
+                Update Product
+            </button>
+
+            <button ng-if="!isEdit"
+                    class="btn btn-primary"
+                    ng-click="saveProduct()">
+                Save Product
+            </button>
+        </div>
+    </div>
+</div>

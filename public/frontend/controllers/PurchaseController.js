@@ -1,4 +1,4 @@
-app.controller('PurchaseController', function ($scope, ApiService) {
+app.controller('PurchaseController', function ($scope, ApiService, $location) {
 
     $scope.purchase = {
         party_id: null,
@@ -41,9 +41,27 @@ app.controller('PurchaseController', function ($scope, ApiService) {
 
     $scope.savePurchase = function () {
         ApiService.savePurchase($scope.purchase)
-            .then(() => alert('Purchase Saved'))
+            .then(function (res) {
+
+                alert('Purchase saved successfully');
+
+                // ✅ REDIRECT TO PURCHASE LIST
+                $location.path('/purchases');
+
+            })
             .catch(e => alert(e.data.message));
     };
-
+    $scope.changeLocation = function(){
+        $location.path('/purchases');
+    };
     $scope.addItem();
+});
+app.controller('PurchaseViewController', function ($scope, $routeParams, ApiService) {
+
+    $scope.purchase = {};
+
+    ApiService.getPurchase($routeParams.id).then(res => {
+        $scope.purchase = res.data;
+    });
+
 });

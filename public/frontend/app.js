@@ -52,6 +52,14 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'views/purchase.html',
             controller: 'PurchaseController'
         })
+        .when('/purchases', {
+            templateUrl: 'views/purchase-list.html',
+            controller: 'PurchaseListController'
+        })
+        .when('/purchase/view/:id', {
+            templateUrl: 'views/purchase-view.html',
+            controller: 'PurchaseViewController'
+        })
         .when('/stockledger', {
             templateUrl: 'views/stock-ledger-new.html',
             controller: 'StockLedgerController'
@@ -170,8 +178,6 @@ app.run(function ($rootScope, $location, AuthService) {
             $rootScope.sidebarCollapsed =
             localStorage.getItem('sidebarCollapsed') === 'true';
         }
-
-        
     });
 
 });

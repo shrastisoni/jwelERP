@@ -1,5 +1,5 @@
 
-<nav class="navbar"  ng-if="user">
+<!-- <nav class="navbar"  ng-if="user">
 
     <div class="navbar-left">
         <span class="logo">💎 Jewellery ERP</span>
@@ -13,6 +13,33 @@
         <button class="logout-btn" ng-click="logout()">
             Logout
         </button>
+    </div>
+
+</nav> -->
+<nav class="topbar" >
+
+    <!-- LEFT -->
+    <div class="topbar-left">
+        <button class="menu-btn" ng-click="toggleSidebar()">☰</button>
+        <span class="app-name">Munim Jewellery</span>
+    </div>
+
+    <!-- CENTER -->
+    <div class="topbar-center">
+        <span class="page-title">{{ pageTitle || 'Dashboard' }}</span>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="topbar-right" ng-click="toggleUserMenu()">
+        <span class="user-avatar">
+            {{ user.name.charAt(0) | uppercase }}
+        </span>
+        <span class="user-name">{{ user.name }}</span>
+
+        <div class="user-dropdown" ng-if="showUserMenu">
+            <a href="#!/profile">Profile</a>
+            <a href="" ng-click="logout()">Logout</a>
+        </div>
     </div>
 
 </nav>
