@@ -61,7 +61,7 @@ Route::middleware('auth:sanctum')->group(function () {
      
     // Route for dashboard
     Route::get('/dashboard', [ DashboardController::class, 'index']);
-    Route::get('/dashboard/charts', [ DashboardController::class, 'index']);
+    Route::get('/dashboard/charts', [ DashboardController::class, 'charts']);
     //Route for customers
     Route::get('/customers', [CustomerController::class, 'index']);
     Route::post('/customers', [CustomerController::class, 'store']);
@@ -74,6 +74,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/payments/{id}', [PaymentController::class, 'update']);
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 
+      Route::get('/dashboard/stock-value', [DashboardController::class, 'stockValue']);
+    Route::get('/dashboard/total-sales', [DashboardController::class, 'totalSales']);
+    Route::get('/dashboard/profit', [DashboardController::class, 'totalProfit']);
+    Route::get('/dashboard/summary', [DashboardController::class, 'summary']);
+Route::get('/dashboard/recent-sales', [DashboardController::class, 'recentSales']);
+Route::get('/dashboard/low-stock', [DashboardController::class, 'lowStock']);
 
     Route::get('/parties', [PartyController::class, 'index']);
     Route::post('/parties', [PartyController::class, 'store']);

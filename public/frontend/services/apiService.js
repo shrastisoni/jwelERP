@@ -62,6 +62,11 @@ app.factory('ApiService', function ($http) {
         saveParty : data => $http.post(baseUrl + '/parties', data),
         updateParty:(id, data) =>$http.put(baseUrl + '/parties/'+id, data),
         deleteParty  :(id)=>$http.delete(baseUrl + '/parties/'+id),
+
+        // getLowStock:() => $http.get(baseUrl + '/dashboard'),
+        getRecentSales:() => $http.get(baseUrl + '/dashboard/recent-sales'),
+        getLowStock:() => $http.get(baseUrl + '/dashboard/low-stock'),
+        
        
     };
 });

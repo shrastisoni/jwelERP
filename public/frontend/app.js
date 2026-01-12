@@ -3,17 +3,22 @@ var app = angular.module('JewelleryApp', ['ngRoute']);
 app.config(function ($routeProvider, $httpProvider) {
 
     $routeProvider
-        .when('/login', {
-            template: `
-                <h3>Login</h3>
-                <form ng-submit="login()">
-                    <input class="form-control mb-2" placeholder="Email" ng-model="email">
-                    <input class="form-control mb-2" type="password" placeholder="Password" ng-model="password">
-                    <button class="btn btn-success">Login</button>
-                </form>
-                <p class="text-danger">{{error}}</p>
-            `,
-            controller: 'LoginController'
+        // .when('/login', {
+        //     template: `
+        //         <h3>Login</h3>
+        //         <form ng-submit="login()">
+        //             <input class="form-control mb-2" placeholder="Email" ng-model="email">
+        //             <input class="form-control mb-2" type="password" placeholder="Password" ng-model="password">
+        //             <button class="btn btn-success">Login</button>
+        //         </form>
+        //         <p class="text-danger">{{error}}</p>
+        //     `,
+        //     controller: 'LoginController'
+        // })
+         .when('/login', {
+            templateUrl: 'views/login.html',
+            controller: 'LoginController',
+            public: true
         })
         .when('/products', {
             templateUrl:'views/product.html',
@@ -110,18 +115,69 @@ app.config(function ($routeProvider, $httpProvider) {
         .otherwise({ redirectTo: '/login' });
 
     // Attach token automatically
-    $httpProvider.interceptors.push(function () {
-        return {
-            request: function (config) {
-                let token = localStorage.getItem('token');
-                if (token) {
-                    config.headers.Authorization = 'Bearer ' + token;
+    // $httpProvider.interceptors.push(function () {
+    //     return {
+    //         request: function (config) {
+    //             let token = localStorage.getItem('token');
+    //             if (token) {
+    //                 config.headers.Authorization = 'Bearer ' + token;
+    //             }
+    //             return config;
+    //         },
+    //         responseError: function (response) {
+    //             if (response.status === 401) {
+    //                 AuthService.logout();
+    //                 $location.path('/login');
+    //             }
+    //             return $q.reject(response);
+    //         }
+    //     };
+    // });
+    $httpProvider.interceptors.push([
+        '$q', '$location', '$injector',
+        function ($q, $location, $injector) {
+
+            return {
+                request: function (config) {
+                    var AuthService = $injector.get('AuthService');
+                    var token = AuthService.getToken();
+
+                    if (token) {
+                        config.headers.Authorization = 'Bearer ' + token;
+                    }
+                    return config;
+                },
+
+                responseError: function (response) {
+                    if (response.status === 401) {
+                        var AuthService = $injector.get('AuthService');
+                        AuthService.logout();
+                        $location.path('/login');
+                    }
+                    return $q.reject(response);
                 }
-                return config;
-            }
-        };
-    });
+            };
+        }
+    ]);
 });
+app.run(function ($rootScope, $location, AuthService) {
+
+    $rootScope.$on('$routeChangeStart', function (event, next) {
+
+        if (!next.public && !AuthService.isLoggedIn()) {
+            event.preventDefault();
+            $location.path('/login');
+            $rootScope.sidebarCollapsed =
+            localStorage.getItem('sidebarCollapsed') === 'true';
+        }
+
+        
+    });
+
+});
+
+
+
 // app.run(['$rootScope', '$location', function($rootScope, $location){
 //     var path = function() { 
 //         return $location.path();

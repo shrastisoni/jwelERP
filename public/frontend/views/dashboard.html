@@ -1,130 +1,71 @@
-<!-- <div class="row">
-    <div class="col-md-3">
-        <div class="card text-white bg-info mb-3">
-            <div class="card-body text-center">
-                <h5>Sales</h5>
-                <a href="#!/sales" class="btn btn-light btn-sm">Go</a>
-            </div>
-        </div>
-    </div>
+<!-- <style>
+    .dashboard-card {
+    border-radius: 10px;
+    color: #fff;
+}
 
-    <div class="col-md-3">
-        <div class="card text-white bg-success mb-3">
-            <div class="card-body text-center">
-                <h5>Stock Ledger</h5>
-                <a href="#!/ledger" class="btn btn-light btn-sm">View</a>
-            </div>
-        </div>
-    </div>
-</div> -->
+.bg-stock { background: #2b6777; }
+.bg-sales { background: #52ab98; }
+.bg-profit { background: #3a7d44; }
 
-<div class="container mt-4">
+.card h6 {
+    font-size: 13px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
 
-    <h3>Dashboard</h3>
-
-    <!-- SUMMARY CARDS -->
+</style> -->
+<div >
+    <h4 class="mb-3">Dashboard</h4>
     <div class="row">
 
         <div class="col-md-3">
-            <div class="card text-bg-primary mb-3">
-                <div class="card-body">
-                    <h6>Total Products</h6>
-                    <h3>{{ data.total_products }}</h3>
-                </div>
+            <div class="card shadow-sm p-3">
+                <small>Total Sales</small>
+                <h4 class="text-success">
+                    ₹ {{ summary.total_sales | number:2 }}
+                </h4>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card text-bg-secondary mb-3">
-                <div class="card-body">
-                    <h6>Total Stock (gm)</h6>
-                    <h3>{{ data.total_stock }}</h3>
-                </div>
+            <div class="card shadow-sm p-3">
+                <small>Total Purchase</small>
+                <h4 class="text-primary">
+                    ₹ {{ summary.total_purchase | number:2 }}
+                </h4>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card text-bg-success mb-3">
-                <div class="card-body">
-                    <h6>Total Purchase</h6>
-                    <h3>{{ data.total_purchase | currency:'₹' }}</h3>
-                </div>
+            <div class="card shadow-sm p-3">
+                <small>Profit</small>
+                <h4 ng-class="summary.profit>=0?'text-success':'text-danger'">
+                    ₹ {{ summary.profit | number:2 }}
+                </h4>
             </div>
         </div>
 
         <div class="col-md-3">
-            <div class="card text-bg-warning mb-3">
-                <div class="card-body">
-                    <h6>Total Sales</h6>
-                    <h3>{{ data.total_sales | currency:'₹' }}</h3>
-                </div>
+            <div class="card shadow-sm p-3">
+                <small>Stock Value</small>
+                <h4>₹ {{ summary.stock_value | number:2 }}</h4>
             </div>
         </div>
 
-    </div>
-
-    <!-- PROFIT -->
-    <div class="row">
-        <div class="col-md-4">
-            <div class="card text-bg-dark mb-3">
-                <div class="card-body">
-                    <h6>Net Profit</h6>
-                    <h3 ng-class="data.profit >= 0 ? 'text-success' : 'text-danger'">
-                        {{ data.profit | currency:'₹' }}
-                    </h3>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="row mt-4">
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                Monthly Sales
-            </div>
-            <div class="card-body">
-                <canvas id="salesChart"></canvas>
-            </div>
+        <div class="col-md-6">
+            <h6>Monthly Sales</h6>
+            <canvas id="salesChart"></canvas>
         </div>
-    </div>
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-success text-white">
-                Monthly Profit
-            </div>
-            <div class="card-body">
-                <canvas id="profitChart"></canvas>
-            </div>
+        <div class="col-md-6">
+            <h6>Monthly Profit</h6>
+            <canvas id="profitChart"></canvas>
         </div>
+
     </div>
 
 </div>
-    <!-- LOW STOCK -->
-    <div class="card mt-4">
-        <div class="card-header bg-danger text-white">
-            Low Stock Products
-        </div>
-        <table class="table table-bordered mb-0">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Balance (gm)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr ng-repeat="l in data.low_stock">
-                    <td>{{ l.product.name }}</td>
-                    <td>{{ l.balance }}</td>
-                </tr>
-                <tr ng-if="data.low_stock.length == 0">
-                    <td colspan="2" class="text-center">No low stock</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-</div>
-
-

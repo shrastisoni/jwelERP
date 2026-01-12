@@ -1,41 +1,47 @@
 app.controller('DashboardController', function ($scope, ApiService) {
 
-    $scope.data = {};
-
-    ApiService.getDashboard().then(res => {
-        $scope.data = res.data;
+    $scope.summary = {};
+    
+    ApiService.getDashboard().then(function (res) {
+        $scope.summary = res.data;
+        console.log($scope.summary);
     });
 
+    ApiService.getRecentSales().then(function (res) {
+        $scope.recentSales = res.data;
+        console.log( $scope.recentSales);
+    });
+
+    ApiService.getLowStock().then(function (res) {
+        $scope.lowStock = res.data;
+         console.log($scope.lowStock);
+    });
     ApiService.getDashboardCharts().then(res => {
-        drawCharts(res.data);
+        // $scope.summary = res.data.summary;
+        console.log(res.data);
+        renderChart(
+            'salesChart',
+            res.data.sales,
+            'Sales'
+        );
+
+        renderChart(
+            'profitChart',
+            res.data.profit,
+            'Profit'
+        );
     });
 
-    function drawCharts(data) {
-
-        // SALES CHART
-        new Chart(document.getElementById('salesChart'), {
-            type: 'bar',
-            data: {
-                labels: data.months,
-                datasets: [{
-                    label: 'Sales Amount',
-                    data: data.sales,
-                    backgroundColor: '#0d6efd'
-                }]
-            }
-        });
-
-        // PROFIT CHART
-        new Chart(document.getElementById('profitChart'), {
+    function renderChart(id, data, label) {
+        new Chart(document.getElementById(id), {
             type: 'line',
             data: {
-                labels: data.months,
+                labels: data.labels,
                 datasets: [{
-                    label: 'Profit',
-                    data: data.profit,
-                    borderColor: '#198754',
-                    fill: false,
-                    tension: 0.2
+                    label: label,
+                    data: data.values,
+                    borderWidth: 2,
+                    fill: false
                 }]
             }
         });

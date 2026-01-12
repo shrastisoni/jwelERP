@@ -1,0 +1,38 @@
+<div class="sidebar" 
+     ng-if="isLoggedIn">
+
+    <ul class="menu">
+        <li ng-class="{active: isActive('/dashboard')}">
+            <a href="#!/dashboard">Dashboard</a>
+        </li>
+
+        <li ng-class="{active: isActive('/products')}">
+            <a href="#!/products">Products</a>
+        </li>
+
+        <li ng-class="{active: isActive('/categories')}">
+            <a href="#!/categories">Categories</a>
+        </li>
+
+        <li ng-class="{active: isActive('/parties')}">
+            <a href="#!/parties">Customers / Suppliers</a>
+        </li>
+
+        <li ng-class="{active: isActive('/purchase')}">
+            <a href="#!/purchase">Purchase</a>
+        </li>
+
+        <li ng-class="{active: isActive('/sales')}">
+            <a href="#!/sales">Sales</a>
+        </li>
+
+        <li ng-class="{active: isActive('/payments')}">
+            <a href="#!/payments">Payments</a>
+        </li>
+
+        <li ng-class="{active: isActive('/stock-ledger')}">
+            <a href="#!/stock-ledger">Stock Ledger</a>
+        </li>
+    </ul>
+
+</div>
