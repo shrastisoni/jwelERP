@@ -75,7 +75,7 @@ body {
 
 .page-container {
     margin-top: 65px;
-    padding: 20px;
+    /* padding: 20px; */
 }
 /* Layout */
 .main-layout {
@@ -115,7 +115,7 @@ body {
 /* Content */
 .content {
     margin-left: 220px;
-    padding: 20px;
+    /* padding: 20px; */
     width: 100%;
     margin-top: 55px;
 }

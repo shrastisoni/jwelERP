@@ -1,94 +1,158 @@
-<div  class="container mt-4">
+<div class="page">
 
-    <h4>Parties (Customer / Supplier)</h4>
-
-    <div class="row mb-3">
-        <div class="col">
-            <input class="form-control"
-                   placeholder="Search name / mobile"
-                   ng-model="search"
-                   ng-change="onSearchChange()">
+    <!-- HEADER -->
+    <div class="page-header">
+        <div>
+            <h4>Parties</h4>
+            <p class="page-subtitle">Customers & Suppliers</p>
         </div>
 
-        <div class="col">
-            <select class="form-control"
-                    ng-model="filterType"
-                    ng-change="onSearchChange()">
-                <option value="">All</option>
-                <option value="customer">Customer</option>
-                <option value="supplier">Supplier</option>
-            </select>
+        <div class="page-actions">
+            <button class="btn btn-primary" ng-click="openAdd()">
+                + Add Party
+            </button>
         </div>
     </div>
 
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Mobile</th>
-                <th>Address</th>
-                <th width="150">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="p in parties">
-                <td>{{ p.name }}</td>
-                <td>
-                    <span class="badge"
-                          ng-class="p.type=='customer' ? 'bg-success' : 'bg-primary'">
-                        {{ p.type }}
-                    </span>
-                </td>
-                <td>{{ p.mobile }}</td>
-                <td>{{ p.address }}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning"
-                            ng-click="edit(p)">Edit</button>
-                    <button class="btn btn-sm btn-danger"
-                            ng-click="delete(p.id)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <!-- FILTERS -->
+    <div class="card mb-3">
+        <div class="row g-2">
 
-    <hr>
+            <div class="col-md-4">
+                <input class="form-control"
+                       placeholder="Search name or mobile"
+                       ng-model="search"
+                       ng-change="onSearchChange()">
+            </div>
 
-    <h5>{{ editing ? 'Edit Party' : 'Add Party' }}</h5>
+            <div class="col-md-3">
+                <select class="form-control"
+                        ng-model="filterType"
+                        ng-change="onSearchChange()">
+                    <option value="">All</option>
+                    <option value="customer">Customer</option>
+                    <option value="supplier">Supplier</option>
+                </select>
+            </div>
 
-    <form ng-submit="save()">
+        </div>
+    </div>
 
-        <input class="form-control mb-2"
-               placeholder="Name"
-               ng-model="form.name"
-               required>
+    <!-- LIST -->
+    <div class="card">
+        <table class="table munim-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Mobile</th>
+                    <th>Address</th>
+                    <th class="text-end">Outstanding</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
 
-        <select class="form-control mb-2"
-                ng-model="form.type"
-                required>
-            <option value="">Select Type</option>
-            <option value="customer">Customer</option>
-            <option value="supplier">Supplier</option>
-        </select>
+            <tbody>
+                <tr ng-repeat="p in parties">
+                    <td>{{$index+1}}</td>
+                    <td>{{p.name}}</td>
+                    <td>
+                        <span class="badge"
+                              ng-class="{
+                                'bg-success': p.type=='customer',
+                                'bg-warning': p.type=='supplier'
+                              }">
+                            {{p.type | uppercase}}
+                        </span>
+                    </td>
+                    <td>{{p.mobile || '-'}}</td>
+                    <td>{{p.address || '-'}}</td>
+                     <td class="text-end">
+                        <span ng-class="{
+                            'text-danger': p.outstanding > 0,
+                            'text-success': p.outstanding <= 0
+                        }">
+                            ₹ {{ p.outstanding | number:2 }}
+                        </span>
+                    </td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary"
+                                ng-click="openEdit(p)">
+                            Edit
+                        </button>
 
-        <input class="form-control mb-2"
-               placeholder="Mobile"
-               ng-model="form.mobile">
+                        <button class="btn btn-sm btn-outline-danger"
+                                ng-click="delete(p.id)">
+                            Delete
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-        <textarea class="form-control mb-2"
-                  placeholder="Address"
-                  ng-model="form.address"></textarea>
+</div>
 
-        <button class="btn btn-primary">
-            {{ editing ? 'Update' : 'Save' }}
-        </button>
+<!-- MODAL -->
+<div class="modal fade" id="partyModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
 
-        <button class="btn btn-secondary"
-                type="button"
-                ng-if="editing"
-                ng-click="editing=false;form={}">
-            Cancel
-        </button>
-    </form>
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{ editing ? 'Edit Party' : 'Add Party' }}
+                </h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
 
+            <div class="modal-body">
+                <div class="row g-2">
+
+                    <div class="col-md-6">
+                        <label>Name</label>
+                        <input class="form-control"
+                               ng-model="form.name" required>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Type</label>
+                        <select class="form-control"
+                                ng-model="form.type" required>
+                            <option value="">Select</option>
+                            <option value="customer">Customer</option>
+                            <option value="supplier">Supplier</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Mobile</label>
+                        <input class="form-control"
+                               ng-model="form.mobile">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Address</label>
+                        <input class="form-control"
+                               ng-model="form.address">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Cancel
+                </button>
+
+                <button class="btn btn-primary"
+                        ng-click="save()">
+                    {{ editing ? 'Update' : 'Save' }}
+                </button>
+            </div>
+
+        </div>
+    </div>
 </div>
