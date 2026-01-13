@@ -289,3 +289,34 @@ body {
     border: 1px solid #ccc;
     background: none;
 }
+.dashboard-card {
+    padding: 15px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+.bg-sales { background: #2563eb; }
+.bg-purchase { background: #9333ea; }
+.bg-profit { background: #16a34a; }
+.bg-loss { background: #dc2626; }
+.bg-stock { background: #0f766e; }
+
+.dashboard-card small {
+    opacity: 0.9;
+    font-size: 12px;
+}
+
+.dashboard-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.dashboard-card {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}

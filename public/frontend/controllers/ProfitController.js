@@ -1,13 +1,9 @@
 app.controller('ProfitController', function ($scope, ApiService) {
 
-    $scope.profits = [];
+    $scope.products = [];
 
     ApiService.getProductProfit().then(res => {
-        $scope.profits = res.data;
-        // Object.keys(res.data).forEach((value, index) => {
-        //     console.log(typeof(value));
-        //     console.log(`Index ${index}: Value ${value}`);
-        // });
+        $scope.products = res.data;
     });
 
     $scope.rows = [];

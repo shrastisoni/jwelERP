@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -9,110 +8,27 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return $this->summary();
-    }
+        $totalSales = DB::table('sales')->sum('total_amount');
+        $totalPurchase = DB::table('purchases')->sum('total_amount');
 
-    /* ---------------------------------
-       STOCK VALUE (CORRECT)
-    ---------------------------------*/
-    public function stockValue()
-    {
-        $value = DB::table('stock_ledgers')
-            ->where('type', 'purchase')
-            ->selectRaw('
-                SUM(balance_weight * rate) as value
-            ')
-            ->first();
+        $profit = $totalSales - $totalPurchase;
 
-        return response()->json([
-            'stock_value' => round($value->value ?? 0, 2)
-        ]);
-    }
-
-    /* ---------------------------------
-       TOTAL SALES
-    ---------------------------------*/
-    public function totalSales()
-    {
-        $total = DB::table('sales')
-            ->selectRaw('SUM(total_amount) as total')
-            ->first();
-
-        return response()->json([
-            'total_sales' => round($total->total ?? 0, 2)
-        ]);
-    }
-
-    /* ---------------------------------
-       TOTAL PROFIT (SALE − PURCHASE)
-    ---------------------------------*/
-    public function totalProfit()
-    {
-        $profit = DB::table('sale_items as si')
-            ->join('stock_ledgers as sl', function ($join) {
-                $join->on('sl.product_id', '=', 'si.product_id')
-                     ->where('sl.type', '=', 'purchase');
+        // Stock value from latest stock ledger
+        $stockValue = DB::table('stock_ledgers as sl')
+            ->selectRaw('SUM(sl.balance_weight * sl.rate) as value')
+            ->whereIn('sl.id', function ($q) {
+                $q->select(DB::raw('MAX(id)'))
+                  ->from('stock_ledgers')
+                  ->groupBy('product_id');
             })
-            ->selectRaw('
-                SUM(
-                    (si.weight * si.rate)
-                    - (si.weight * sl.rate)
-                ) as profit
-            ')
-            ->first();
+            ->value('value');
 
         return response()->json([
-            'profit' => round($profit->profit ?? 0, 2)
+            'total_sales'    => $totalSales ?? 0,
+            'total_purchase' => $totalPurchase ?? 0,
+            'profit'         => $profit ?? 0,
+            'stock_value'    => $stockValue ?? 0,
         ]);
-    }
-
-    /* ---------------------------------
-       DASHBOARD SUMMARY
-    ---------------------------------*/
-    public function summary()
-    {
-        $stock = DB::table('stock_ledgers')
-            ->where('type', 'purchase')
-            ->selectRaw('SUM(balance_weight * rate) as value')
-            ->first();
-
-        $sales = DB::table('sales')
-            ->selectRaw('SUM(total_amount) as total')
-            ->first();
-
-        $profit = DB::table('sale_items as si')
-            ->join('stock_ledgers as sl', function ($join) {
-                $join->on('sl.product_id', '=', 'si.product_id')
-                     ->where('sl.type', '=', 'purchase');
-            })
-            ->selectRaw('
-                SUM(
-                    (si.weight * si.rate)
-                    - (si.weight * sl.rate)
-                ) as profit
-            ')
-            ->first();
-
-        return response()->json([
-            'stock_value' => round($stock->value ?? 0, 2),
-            'total_sales' => round($sales->total ?? 0, 2),
-            'profit'      => round($profit->profit ?? 0, 2),
-        ]);
-    }
-    public function recentSales()
-    {
-        return DB::table('sales')
-            ->orderBy('id', 'desc')
-            ->limit(10)
-            ->get();
-    }
-    public function lowStock()
-    {
-        return DB::table('stock_ledgers as sl')
-            ->join('products as p', 'p.id', '=', 'sl.product_id')
-            ->where('sl.balance_weight', '<', 5)
-            ->select('p.name', 'sl.balance_weight')
-            ->get();
     }
 
     public function charts()
@@ -122,22 +38,24 @@ class DashboardController extends Controller
             ->groupBy('month')
             ->pluck('total', 'month');
 
-        $profit = DB::table('sale_items')
-            ->selectRaw("strftime('%m', created_at) as month, SUM((weight * rate)) as profit")
+        $profit = DB::table('sales')
+            ->selectRaw("
+                strftime('%m', sales.created_at) as month,
+                SUM(sales.total_amount - purchases.total_amount) as profit
+            ")
+            ->leftJoin('purchases', DB::raw("strftime('%m', purchases.created_at)"), '=', DB::raw("strftime('%m', sales.created_at)"))
             ->groupBy('month')
             ->pluck('profit', 'month');
 
         return response()->json([
             'sales' => [
-                'labels' => $sales->keys(),
-                'values' => $sales->values()
+                'labels' => array_keys($sales->toArray()),
+                'values' => array_values($sales->toArray()),
             ],
             'profit' => [
-                'labels' => $profit->keys(),
-                'values' => $profit->values()
+                'labels' => array_keys($profit->toArray()),
+                'values' => array_values($profit->toArray()),
             ]
         ]);
     }
-
-
 }

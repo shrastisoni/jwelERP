@@ -15,7 +15,7 @@
 }
 
 </style> -->
-<div >
+<!-- <div >
     <h4 class="mb-3">Dashboard</h4>
     <div class="row">
 
@@ -64,6 +64,86 @@
         <div class="col-md-6">
             <h6>Monthly Profit</h6>
             <canvas id="profitChart"></canvas>
+        </div>
+
+    </div>
+
+</div> -->
+<div class="page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header mb-3">
+        <h4>{{ pageTitle }}</h4>
+        <p class="page-subtitle">Business overview & performance</p>
+    </div>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row g-3">
+
+        <div class="col-md-3">
+             <a href="#!/sales"
+                class="dashboard-link">
+                <div class="card dashboard-card bg-sales">
+                    <small>Total Sales</small>
+                    <h4>₹ {{ summary.total_sales | number:2 }}</h4>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#!/purchases" class="dashboard-link">
+                <div class="card dashboard-card bg-purchase">
+                    <small>Total Purchase</small>
+                    <h4>₹ {{ summary.total_purchase | number:2 }}</h4>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <!-- <div class="card dashboard-card"
+                 ng-class="summary.profit>=0 ? 'bg-profit' : 'bg-loss'">
+                <small>Profit</small>
+                <h4>₹ {{ summary.profit | number:2 }}</h4>
+            </div> -->
+            <a href="#!/profit-report" class="dashboard-link">
+                <div class="card dashboard-card"
+                    ng-class="summary.profit>=0 ? 'bg-profit' : 'bg-loss'">
+                    <small>Profit</small>
+                    <h4>₹ {{ summary.profit | number:2 }}</h4>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <!-- <div class="card dashboard-card bg-stock">
+                <small>Stock Value</small>
+                <h4>₹ {{ summary.stock_value | number:2 }}</h4>
+            </div> -->
+            <a href="#!/stock-valuation" class="dashboard-link">
+                <div class="card dashboard-card bg-stock">
+                    <small>Stock Value</small>
+                    <h4>₹ {{ summary.stock_value | number:2 }}</h4>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+    <div class="row mt-4">
+
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h6 class="mb-2">Monthly Sales</h6>
+                <canvas id="salesChart" height="120"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card p-3">
+                <h6 class="mb-2">Monthly Profit</h6>
+                <canvas id="profitChart" height="120"></canvas>
+            </div>
         </div>
 
     </div>

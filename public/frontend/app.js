@@ -77,6 +77,11 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'views/product-profit.html',
             controller: 'ProfitController'
         })
+        .when('/profit-report', {
+            templateUrl: 'views/profit.html',
+            controller: 'ProfitController',
+            title: 'Profit Report'
+        })
         .when('/openingstock', {
             templateUrl: 'views/opening-stock.html',
             controller: 'OpeningStockController',
@@ -198,7 +203,7 @@ app.config(function ($routeProvider, $httpProvider) {
     ]);
 });
 app.run(function ($rootScope, $location, AuthService) {
-
+    $rootScope.pageTitle = '';
     $rootScope.$on('$routeChangeStart', function (event, next) {
 
         if (!next.public && !AuthService.isLoggedIn()) {
@@ -206,6 +211,11 @@ app.run(function ($rootScope, $location, AuthService) {
             $location.path('/login');
             $rootScope.sidebarCollapsed =
             localStorage.getItem('sidebarCollapsed') === 'true';
+        }
+    });
+    $rootScope.$on('$routeChangeSuccess', function (event, current) {
+        if (current.$$route && current.$$route.title) {
+            $rootScope.pageTitle = current.$$route.title;
         }
     });
 

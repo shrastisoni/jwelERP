@@ -1,5 +1,5 @@
-app.controller('PaymentController', function ($scope, ApiService, $location) {
-
+app.controller('PaymentController', function ($scope, ApiService, $location,$rootScope) {
+    $rootScope.pageTitle = 'Payments';
     $scope.payment = {
         party_id: '',
         amount: '',

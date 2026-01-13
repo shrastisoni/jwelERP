@@ -61,7 +61,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports/product-profit', [ ProfitController::class, 'productWise']);
     Route::get('/reports/profit/purchase-cost', [ ProfitController::class, 'productWiseNew']);
     Route::get('/reports/category-stock', [ ReportController::class, 'categoryStock']);
-    
+    Route::get('/profit/products', [ProfitController::class, 'productProfit']);
+    Route::get('/profit/purchase-cost', [ProfitController::class, 'purchaseCostProfit']);
+
     Route::post('/opening-stock', [ OpeningStockController::class, 'store']);
      
     // Route for dashboard
