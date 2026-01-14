@@ -49,6 +49,7 @@ app.factory('ApiService', function ($http) {
         getProductProfit:() => $http.get(baseUrl + '/profit/products'),
         // getCategoryStock:() => $http.get(baseUrl + '/reports/category-stock'),
         getPurchaseCostProfit:() => $http.get(baseUrl + '/profit/purchase-cost'),
+        getFifoProfit:() => $http.get(baseUrl + '/profit/fifo'),
         
         addOpeningStock : data => $http.post(baseUrl + '/opening-stock', data),
         getDashboard:() => $http.get(baseUrl + '/dashboard'),

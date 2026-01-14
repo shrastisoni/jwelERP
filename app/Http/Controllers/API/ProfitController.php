@@ -3,7 +3,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\Product;
+use App\Models\PurchaseItem;
+use App\Models\SaleItem;
 class ProfitController extends Controller
 {
     // 🔹 Product-wise profit (simple)
@@ -70,5 +72,73 @@ class ProfitController extends Controller
             ->get();
 
         return response()->json($data);
+    }
+
+     public function fifoProfit()
+    {
+        $result = [];
+
+        $products = Product::all();
+
+        foreach ($products as $product) {
+
+            $purchases = PurchaseItem::where('product_id', $product->id)
+                ->orderBy('id')
+                ->get();
+
+            $sales = SaleItem::where('product_id', $product->id)
+                ->orderBy('id')
+                ->get();
+
+            $purchaseIndex = 0;
+            $purchaseBalance = $purchases->sum('weight');
+
+            $profit = 0;
+            $soldWeight = 0;
+
+            foreach ($sales as $sale) {
+
+                $remainingSaleWeight = $sale->weight;
+
+                while ($remainingSaleWeight > 0 && $purchaseIndex < count($purchases)) {
+
+                    $purchase = $purchases[$purchaseIndex];
+
+                    if ($purchase->weight <= 0) {
+                        $purchaseIndex++;
+                        continue;
+                    }
+
+                    $usedWeight = min(
+                        $purchase->weight,
+                        $remainingSaleWeight
+                    );
+
+                    // PROFIT CALCULATION
+                    $profit += $usedWeight * ($sale->rate - $purchase->rate);
+
+                    // UPDATE BALANCES
+                    $purchase->weight -= $usedWeight;
+                    $remainingSaleWeight -= $usedWeight;
+                    $soldWeight += $usedWeight;
+
+                    if ($purchase->weight == 0) {
+                        $purchaseIndex++;
+                    }
+                }
+            }
+
+            if ($soldWeight > 0) {
+                $result[] = [
+                    'product' => $product->name,
+                    'metal'   => $product->metal,
+                    'purity'  => $product->purity,
+                    'sold_weight' => round($soldWeight, 3),
+                    'profit'  => round($profit, 2)
+                ];
+            }
+        }
+
+        return response()->json($result);
     }
 }
