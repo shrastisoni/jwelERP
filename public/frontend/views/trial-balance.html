@@ -1,0 +1,21 @@
+<div class="page">
+    <h5>Trial Balance</h5>
+
+    <table class="table table-sm">
+        <thead>
+        <tr>
+            <th>Account</th>
+            <th class="text-end">Debit</th>
+            <th class="text-end">Credit</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="r in rows">
+            <td>{{ r.account_type }} {{ r.account_id }}</td>
+            <td class="text-end">{{ r.debit }}</td>
+            <td class="text-end">{{ r.credit }}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

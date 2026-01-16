@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use App\Models\StockLedger;
-
+use App\Models\LedgerEntry;
 
 class SaleController extends Controller
 {
@@ -139,6 +139,16 @@ class SaleController extends Controller
                         'weight_out'      => $item['weight'],
                         'balance_qty'     => $stock->quantity,
                         'balance_weight'  => $stock->weight,
+                    ]);
+                    LedgerEntry::create([
+                        'account_type' => 'party',
+                        'account_id'   => $sale->party_id,
+                        'date'         => $sale->invoice_date,
+                        'voucher_type' => 'sale',
+                        'voucher_id'   => $sale->id,
+                        'debit'        => $sale->total_amount,
+                        'credit'       => 0,
+                        'narration'    => 'Sale Invoice #' . $sale->invoice_no
                     ]);
 
                 }

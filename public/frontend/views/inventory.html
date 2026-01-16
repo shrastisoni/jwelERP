@@ -1,0 +1,42 @@
+<div class="page">
+
+    <div class="page-header d-flex justify-content-between">
+        <h5>Inventory</h5>
+        <button class="action-btn primary" ng-click="adjust()">Adjust</button>
+    </div>
+
+    <table class="table table-sm table-hover">
+        <thead>
+        <tr>
+            <th>Product</th>
+            <th>Metal</th>
+            <th>Purity</th>
+            <th class="text-end">Qty</th>
+            <th class="text-end">Weight</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr ng-repeat="p in rows">
+            <td>{{ p.name }}</td>
+            <td>{{ p.metal }}</td>
+            <td>{{ p.purity }}</td>
+            <td class="text-end">{{ p.quantity }}</td>
+            <td class="text-end">{{ p.weight }}
+
+                <span class="badge bg-warning text-dark ms-1"
+                ng-if="p.weight <= p.min_stock">
+                Low
+                </span>
+            </td>
+            <td class="text-end">
+                <button class="action-btn" ng-click="ledger(p)">
+                    <i class="bi bi-journal-text"></i>Ledger
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>

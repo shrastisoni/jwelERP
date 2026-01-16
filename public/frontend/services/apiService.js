@@ -81,5 +81,14 @@ app.factory('ApiService', function ($http) {
         getStockValuation :() => $http.get(baseUrl + '/stock-valuation'),
         getCategoryValuation :() => $http.get(baseUrl + '/category-valuation'),
         getStockLedger :(params) => $http.get(baseUrl + '/stock-ledger' , { params: params }),
+        getInventory : () => $http.get(baseUrl + '/inventory'),
+        getStockLedgers : (id) => $http.get(baseUrl + '/inventory/ledger/' + id),
+        adjustStock : (data) => $http.post(baseUrl + '/stock-adjustment', data),
+        getLowStockIn: () => $http.get(baseUrl + '/inventory/low-stock'),
+        getPartyLedgerNew:(id)  => $http.get(baseUrl + '/ledger/party/' + id),
+        getOutstanding : () => $http.get(baseUrl + '/outstanding'),
+        postJournal : (data) => $http.post(baseUrl + '/journal', data),
+        getTrialBalance : () => $http.get(baseUrl + '/trial-balance'),
+        getDayBook : (date) =>$http.get(baseUrl + '/day-book?date=' + date),
     };
 });

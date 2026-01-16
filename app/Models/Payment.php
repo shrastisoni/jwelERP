@@ -8,6 +8,7 @@ class Payment extends Model
 {
     protected $fillable = [
         'party_id',
+        'date',  
         'amount',
         'type',
         'mode',

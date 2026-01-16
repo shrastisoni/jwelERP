@@ -3,47 +3,49 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Stock;
 use App\Models\StockLedger;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class OpeningStockController extends Controller
 {
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'product_id' => 'required|exists:products,id',
             'weight'     => 'required|numeric|min:0.001',
-            'rate'       => 'required|numeric|min:0',
+            'rate'       => 'required|numeric|min:0.01',
         ]);
 
-        // 🔒 Prevent duplicate opening stock
-        $exists = StockLedger::where('product_id', $data['product_id'])
-            ->where('type', 'opening')
-            ->exists();
+        DB::transaction(function () use ($request) {
 
-        if ($exists) {
-            throw ValidationException::withMessages([
-                'opening' => 'Opening stock already entered for this product'
+            if (Stock::where('product_id', $request->product_id)->exists()) {
+                throw ValidationException::withMessages([
+                    'product' => 'Opening stock already exists for this product'
+                ]);
+            }
+
+            $stock = Stock::create([
+                'product_id' => $request->product_id,
+                'quantity'   => 0,
+                'weight'     => $request->weight,
             ]);
-        }
 
-        // 🔢 Current balance
-        $lastBalance = StockLedger::where('product_id', $data['product_id'])
-            ->orderByDesc('id')
-            ->value('balance') ?? 0;
-
-        $newBalance = $lastBalance + $data['weight'];
-
-        StockLedger::create([
-            'product_id'       => $data['product_id'],
-            'type' => 'opening',
-            'weight_in'        => $data['weight'],
-            'weight_out'       => 0,
-            'balance'          => $newBalance,
-            'rate'             => $data['rate'],
-        ]); 
+            StockLedger::create([
+                'product_id'     => $request->product_id,
+                'type'           => 'opening',
+                'reference_id'   => null,
+                'qty_in'         => 0,
+                'qty_out'        => 0,
+                'weight_in'      => $request->weight,
+                'weight_out'     => 0,
+                'balance_qty'    => 0,
+                'balance_weight' => $request->weight,
+                'rate'           => $request->rate,
+            ]);
+        });
 
         return response()->json([
             'message' => 'Opening stock added successfully'

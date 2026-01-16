@@ -7,7 +7,7 @@ use App\Models\Payment;
 use App\Models\Party;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-
+use App\Models\LedgerEntry;
 class PaymentController extends Controller
 {
      public function index(Request $request)
@@ -43,6 +43,7 @@ class PaymentController extends Controller
     {
         $data = $request->validate([
             'party_id' => 'required|exists:parties,id',
+            'date'     => 'required|date',
             'amount' => 'required|numeric|min:0.01',
             'type' => 'required|in:in,out',
             'mode' => 'nullable|string',
@@ -66,6 +67,22 @@ class PaymentController extends Controller
         }
 
         $payment = Payment::create($data);
+        if($payment){
+            LedgerEntry::create([
+                'account_type' => 'party',
+                'account_id'   => $payment->party_id,
+                'date'         => $payment->date, // ✅ SAFE
+                'voucher_type' => 'payment',
+                'voucher_id'   => $payment->id,
+                'debit'        => $payment->type === 'out' ? $payment->amount : 0,
+                'credit'       => $payment->type === 'in'  ? $payment->amount : 0,
+                'narration'    => $payment->type === 'in'
+                                    ? 'Payment received'
+                                    : 'Payment paid'
+            ]);
+
+
+        }
 
         return response()->json($payment, 201);
     }
@@ -130,11 +147,59 @@ class PaymentController extends Controller
 
         $data = $request->validate([
             'amount' => 'required|numeric|min:0.01',
+            'date'     => 'required|date',
             'mode'   => 'nullable|string',
             'note'   => 'nullable|string'
         ]);
 
         $payment->update($data);
+        LedgerEntry::where('voucher_type', 'payment')
+            ->where('voucher_id', $payment->id)
+            ->delete();
+        $payment->update([
+            'party_id' => $request->party_id,
+            'amount'   => $request->amount,
+            'type'     => $request->type,
+            'date'     => $request->date,
+        ]);
+        // if ($payment->type === 'in') {
+        //     // Customer payment received
+        //     LedgerEntry::create([
+        //         'account_type' => 'party',
+        //         'account_id'   => $payment->party_id,
+        //         'date'         => $payment->date,
+        //         'voucher_type' => 'payment',
+        //         'voucher_id'   => $payment->id,
+        //         'debit'        => 0,
+        //         'credit'       => $payment->amount,
+        //         'narration'    => 'Payment received'
+        //     ]);
+        // } else {
+        //     // Supplier payment paid
+        //     LedgerEntry::create([
+        //         'account_type' => 'party',
+        //         'account_id'   => $payment->party_id,
+        //         'date'         => $payment->date,
+        //         'voucher_type' => 'payment',
+        //         'voucher_id'   => $payment->id,
+        //         'debit'        => $payment->amount,
+        //         'credit'       => 0,
+        //         'narration'    => 'Payment paid'
+        //     ]);
+        // }
+    LedgerEntry::create([
+    'account_type' => 'party',
+    'account_id'   => $payment->party_id,
+    'date'         => $payment->date, // ✅ SAFE
+    'voucher_type' => 'payment',
+    'voucher_id'   => $payment->id,
+    'debit'        => $payment->type === 'out' ? $payment->amount : 0,
+    'credit'       => $payment->type === 'in'  ? $payment->amount : 0,
+    'narration'    => $payment->type === 'in'
+                        ? 'Payment received'
+                        : 'Payment paid'
+]);
+
 
         return response()->json($payment);
     }
@@ -142,6 +207,10 @@ class PaymentController extends Controller
     public function destroy($id)
     {
         $payment = Payment::findOrFail($id);
+        LedgerEntry::where('voucher_type', 'payment')
+            ->where('voucher_id', $payment->id)
+            ->delete();
+
         $payment->delete();
 
         return response()->json([

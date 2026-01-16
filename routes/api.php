@@ -18,6 +18,12 @@ use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\StockValuationController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\CategoryValuationController; 
+use App\Http\Controllers\Api\InventoryController;
+use App\Http\Controllers\Api\StockAdjustmentController;
+use App\Http\Controllers\Api\AccountingController;
+use App\Http\Controllers\Api\JournalController;
+use App\Http\Controllers\Api\TrialBalanceController;     
+
 /*
 |--------------------------------------------------------------------------
 | API Routes (Laravel 12)
@@ -100,75 +106,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
     Route::put('/change-password', [ProfileController::class, 'changePassword']);
+     Route::get('/inventory', [InventoryController::class, 'index']);
+    Route::get('/inventory/ledger/{id}', [InventoryController::class, 'ledger']);
+    Route::get('/inventory/category', [InventoryController::class, 'categorySummary']);
+
+    Route::post('/stock-adjustment', [StockAdjustmentController::class, 'store']);
+    Route::get('/inventory/low-stock', [InventoryController::class, 'lowStock']);
+    Route::get('/ledger/party/{id}', [AccountingController::class, 'partyLedger']);
+    Route::get('/outstanding', [AccountingController::class, 'outstanding']);
+    Route::get('/day-book', [AccountingController::class, 'dayBook']);
+
+    Route::post('/journal', [JournalController::class, 'store']);
+    Route::get('/trial-balance', [TrialBalanceController::class, 'index']);
     });
 
-
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\API\AuthController;
-// use App\Http\Controllers\API\CategoryController;
-// use App\Http\Controllers\API\ProductController;
-// use App\Http\Controllers\API\PartyController;
-// use App\Http\Controllers\API\SaleController;
-// use App\Http\Controllers\API\StockLedgerController;
-
-// /*
-// |--------------------------------------------------------------------------
-// | API Routes
-// |--------------------------------------------------------------------------
-// */
-
-// Route::post('/login', [AuthController::class, 'login']);
-
-// Route::middleware('auth:sanctum')->group(function () {
-
-//     Route::get('/categories', [CategoryController::class, 'index']);
-//     Route::get('/products', [ProductController::class, 'index']);
-//     Route::get('/parties', [PartyController::class, 'index']);
-
-//     Route::post('/sales', [SaleController::class, 'store']);
-
-//     Route::get('/stock-ledger', [StockLedgerController::class, 'index']);
-// });
-
-// use App\Http\Controllers\SaleController;
-// use App\Http\Controllers\ProductController;
-// use App\Http\Controllers\PartyController;
-// use App\Http\Controllers\AuthController;
-// use App\Http\Controllers\CategoryController;
-// use App\Http\Controllers\API\{
-//     AuthController,
-//     CategoryController,
-//     ProductController,
-//     PartyController,
-//     SaleController,
-//     StockLedgerController
-// };
-
-// Route::post('login',[AuthController::class,'login']);
-
-// Route::middleware('auth:sanctum')->group(function () {
-
-//     Route::get('categories',[CategoryController::class,'index']);
-//     Route::get('products',[ProductController::class,'index']);
-//     Route::get('parties',[PartyController::class,'index']);
-
-//     Route::post('sales',[SaleController::class,'store']);
-
-//     Route::get('stock-ledger',[StockLedgerController::class,'index']);
-// });
-
-// // Route::post('/login', [AuthController::class, 'login']);
-
-// // Route::middleware('auth:sanctum')->group(function () {
-// //     Route::apiResource('sales', SaleController::class);
-// // });
-
-// // Route::post('/login', [AuthController::class, 'login']);
-
-// // Route::middleware('auth:sanctum')->group(function () {
-// //     Route::apiResource('categories', CategoryController::class);
-// //     Route::apiResource('products', ProductController::class);
-// //     Route::apiResource('parties', PartyController::class);
-// //     Route::apiResource('sales', SaleController::class);
-// // });

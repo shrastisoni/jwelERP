@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Models\StockLedger;
 use App\Models\Product;
+
+use App\Models\LedgerEntry;
 use Illuminate\Validation\ValidationException;
 class PurchaseController extends Controller
 {
@@ -234,6 +236,16 @@ class PurchaseController extends Controller
                         'balance_qty'    => $stock->quantity,
                         'balance_weight' => $stock->weight,
                         'rate'           => $item['rate'],     // ✅ IMPORTANT for valuation
+                    ]);
+                    LedgerEntry::create([
+                        'account_type' => 'party',
+                        'account_id'   => $purchase->party_id,
+                        'date'         => $purchase->invoice_date,
+                        'voucher_type' => 'purchase',
+                        'voucher_id'   => $purchase->id,
+                        'debit'        => 0,
+                        'credit'       => $purchase->total_amount,
+                        'narration'    => 'Purchase Invoice #' . $purchase->invoice_no
                     ]);
 
                     $totalAmount += $amount;

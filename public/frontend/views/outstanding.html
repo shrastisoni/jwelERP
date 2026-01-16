@@ -1,0 +1,10 @@
+<div class="page">
+    <h5>Outstanding</h5>
+
+    <table class="table table-sm">
+        <tr ng-repeat="o in rows">
+            <td>Party #{{ o.account_id }}</td>
+            <td class="text-end">{{ o.balance }}</td>
+        </tr>
+    </table>
+</div>

@@ -9,6 +9,66 @@ body {
     border-right: 1px solid #ddd;
     min-height: 100vh;
 }
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header stays fixed */
+.sidebar-header {
+    padding: 12px;
+    font-weight: 600;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Scroll area */
+.sidebar-menu {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+/* Remove default list spacing */
+.sidebar-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 4px;
+}
+
+.sidebar-menu::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+}
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #495057;
+}
+
+.sidebar-menu li a:hover {
+    background: #e9ecef;
+    text-decoration: none;
+}
+
+.sidebar-menu li.active a {
+    background: #dee2e6;
+    font-weight: 600;
+}
+
 
 .sidebar a {
     display: block;
@@ -319,4 +379,35 @@ body {
 .dashboard-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+/* Page header */
+.page-header h5 {
+    font-weight: 600;
+}
+
+/* Card header (soft) */
+.card-header-lite {
+    background: #f8f9fa;
+    font-weight: 600;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 8px 12px;
+}
+
+/* Compact tables */
+.table-sm th,
+.table-sm td {
+    padding: 6px 8px;
+}
+
+/* Minimal action buttons */
+.action-btn {
+    border: none;
+    background: transparent;
+    color: #6c757d;
+    font-size: 16px;
+}
+
+.action-btn:hover {
+    color: #000;
+    cursor: pointer;
 }

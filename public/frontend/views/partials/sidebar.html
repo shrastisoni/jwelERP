@@ -1,50 +1,97 @@
 <div class="sidebar" 
      ng-if="isLoggedIn">
+    <div class="sidebar-menu">
+        
+    
+        <ul class="menu">
+            <li ng-class="{active: isActive('/dashboard')}">
+                <a href="#!/dashboard">Dashboard</a>
+            </li>
 
-    <ul class="menu">
-        <li ng-class="{active: isActive('/dashboard')}">
-            <a href="#!/dashboard">Dashboard</a>
-        </li>
+            <li ng-class="{active: isActive('/products')}">
+                <a href="#!/products">Products</a>
+            </li>
 
-        <li ng-class="{active: isActive('/products')}">
-            <a href="#!/products">Products</a>
-        </li>
+            <li ng-class="{active: isActive('/categories')}">
+                <a href="#!/category">Categories</a>
+            </li>
 
-        <li ng-class="{active: isActive('/categories')}">
-            <a href="#!/category">Categories</a>
-        </li>
+            <li ng-class="{active: isActive('/parties')}">
+                <a href="#!/parties">Customers / Suppliers</a>
+            </li>
 
-        <li ng-class="{active: isActive('/parties')}">
-            <a href="#!/parties">Customers / Suppliers</a>
-        </li>
+            <li ng-class="{active: isActive('/purchases')}">
+                <a href="#!/purchases">Purchases</a>
+            </li>
+            <li>
+                <a href="#!/openingstock">
+                    <i class="bi bi-box"></i>
+                    <span>Opening Stock</span>
+                </a>
+            </li>
 
-        <li ng-class="{active: isActive('/purchases')}">
-            <a href="#!/purchases">Purchases</a>
-        </li>
+            <li ng-class="{active: isActive('/sales')}">
+                <a href="#!/sales">Sales</a>
+            </li>
 
-        <li ng-class="{active: isActive('/sales')}">
-            <a href="#!/sales">Sales</a>
-        </li>
+            <li ng-class="{active: isActive('/payment-list')}">
+                <a href="#!/payment-list">Payments</a>
+            </li>
 
-        <li ng-class="{active: isActive('/payment-list')}">
-            <a href="#!/payment-list">Payments</a>
-        </li>
+            <li ng-class="{active: isActive('/stockledger')}">
+                <a href="#!/stockledger">Stock Ledger</a>
+            </li>
+            <li ng-class="{active: isActive('/stock-valuation')}">
+                <a href="#!/stock-valuation">
+                    <i class="fa fa-balance-scale"></i> Stock Valuation
+                </a>
+            </li>
 
-        <li ng-class="{active: isActive('/stockledger')}">
-            <a href="#!/stockledger">Stock Ledger</a>
-        </li>
-        <li ng-class="{active: isActive('/stock-valuation')}">
-            <a href="#!/stock-valuation">
-                <i class="fa fa-balance-scale"></i> Stock Valuation
-            </a>
-        </li>
+            <li ng-class="{active: isActive('/category-valuation')}">
+                <a href="#!/category-valuation">
+                    <i class="fa fa-folder"></i> Category Valuation
+                </a>
 
-        <li>
-            <a href="#!/category-valuation">
-                <i class="fa fa-folder"></i> Category Valuation
-            </a>
+            </li>
+            <li ng-class="{active: isActive('/profit-report')}">
+                <a href="#!/profit-report">
+                    <i class="bi bi-graph-up"></i>
+                    <span>Profit Report</span>
+                </a>
+            </li>
+            <li ng-class="{active: isActive('/inventory')}">
+                <a href="#!/inventory">
+                    <i class="bi bi-box-seam"></i>
+                    <span>Inventory</span>
+                </a>
+            </li>
+            <li>
+                <a href="#!/accounting">
+                    <i class="bi bi-journal-bookmark"></i>
+                    <span>Accounting</span>
+                </a>
+            </li>
 
-        </li>
-    </ul>
+            <li>
+                <a href="#!/journal">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Journal</span>
+                </a>
+            </li>
 
+            <li>
+                <a href="#!/trial-balance">
+                    <i class="bi bi-balance-scale"></i>
+                    <span>Trial Balance</span>
+                </a>
+            </li>
+            <li>
+                <a href="#!/outstanding">
+                    <i class="bi bi-cash"></i> Outstanding
+                </a>
+            </li>
+
+
+        </ul>
+    </div>
 </div>

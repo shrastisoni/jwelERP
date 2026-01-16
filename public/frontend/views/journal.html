@@ -1,0 +1,14 @@
+<div class="page">
+    <h5>Journal Entry</h5>
+
+    <table class="table table-sm">
+        <tr ng-repeat="r in form.entries">
+            <td><input class="form-control" ng-model="r.account_type"></td>
+            <td><input class="form-control" ng-model="r.debit"></td>
+            <td><input class="form-control" ng-model="r.credit"></td>
+        </tr>
+    </table>
+
+    <button class="btn btn-sm btn-secondary" ng-click="addRow()">Add Row</button>
+    <button class="btn btn-sm btn-primary" ng-click="save()">Save</button>
+</div>

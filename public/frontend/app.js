@@ -82,6 +82,11 @@ app.config(function ($routeProvider, $httpProvider) {
             controller: 'ProfitController',
             title: 'Profit Report'
         })
+         .when('/inventory', {
+            templateUrl: 'views/inventory.html',
+            controller: 'InventoryController',
+            title: 'Inventory'
+        })
         .when('/openingstock', {
             templateUrl: 'views/opening-stock.html',
             controller: 'OpeningStockController',
@@ -153,7 +158,18 @@ app.config(function ($routeProvider, $httpProvider) {
             templateUrl: 'views/change-password.html',
             controller: 'ChangePasswordController'
         })
-
+        .when('/ledger/:id', {
+            templateUrl: 'views/accounting-ledger.html',
+            controller: 'PartyLedgerController'
+        })
+        .when('/journal', {
+            templateUrl: 'views/journal.html',
+            controller: 'JournalController'
+        })
+        .when('/trial-balance', {
+            templateUrl: 'views/trial-balance.html',
+            controller: 'TrialBalanceController'
+        })
         .otherwise({ redirectTo: '/login' });
 
     // Attach token automatically
@@ -218,7 +234,7 @@ app.run(function ($rootScope, $location, AuthService) {
             $rootScope.pageTitle = current.$$route.title;
         }
     });
-
+    
 });
 
 

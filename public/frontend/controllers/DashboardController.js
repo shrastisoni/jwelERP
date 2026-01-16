@@ -59,6 +59,10 @@ app.controller('DashboardController', function ($scope, $rootScope, $timeout, Ap
             drawChart('profitChart', res.data.profit, 'Monthly Profit');
         });
     });
+    ApiService.getLowStockIn().then(res => {
+        $scope.lowStockCount = res.data.length;
+    });
+
 
     let charts = {};
 

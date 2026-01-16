@@ -18,6 +18,9 @@ $scope.openEdit = function (party) {
     $scope.editing = true;
     openModal();
 };
+$scope.openLedger = function (id) {
+    location.href = '#!/ledger/' + id;
+};
 
 function openModal() {
     const modal = new bootstrap.Modal(
@@ -93,9 +96,7 @@ $scope.save = function () {
 });
 
 
-app.controller('PartyLedgerController', function (
-    $scope, $routeParams, ApiService
-) {
+app.controller('PartyLedgerController', function ($scope, $routeParams, ApiService) {
 
     $scope.ledger = [];
     $scope.party = {};
@@ -109,5 +110,17 @@ app.controller('PartyLedgerController', function (
             $scope.balance += (l.debit - l.credit);
             l.running_balance = $scope.balance;
         });
+    });
+
+    ApiService.getPartyLedgerNew($routeParams.id).then(res => {
+        $scope.rows = res.data;
+         // Calculate running balance
+        let bal = 0;
+        $scope.rows.forEach(r => {
+            bal += (r.debit - r.credit);
+            r.running_balance = bal;
+        });
+
+        $scope.balance = bal;
     });
 });

@@ -25,6 +25,15 @@ app.controller('MainController', function ($rootScope, $scope, $location,AuthSer
     $scope.toggleUserMenu = function () {
         $scope.showUserMenu = !$scope.showUserMenu;
     };
+
+    $scope.$on('$routeChangeSuccess', function () {
+        setTimeout(() => {
+            const active = document.querySelector('.sidebar-menu li.active');
+            if (active) {
+                active.scrollIntoView({ block: 'nearest' });
+            }
+        }, 50);
+    });
     // $scope.isActive = function (page) {
     //     return $location.path() == page;
     // };
@@ -45,4 +54,29 @@ app.controller('MainController', function ($rootScope, $scope, $location,AuthSer
     //     // window.location.href = '#!/login';
     //     $location.path('/login');
     // }
+});
+app.controller('JournalController', function ($scope, ApiService) {
+
+    $scope.form = {
+        date: new Date(),
+        entries: [
+            { account_type:'', account_id:null, debit:0, credit:0 }
+        ]
+    };
+
+    $scope.addRow = () =>
+        $scope.form.entries.push({ debit:0, credit:0 });
+
+    $scope.save = () => {
+        ApiService.postJournal($scope.form).then(() => {
+            alert('Journal saved');
+        });
+    };
+});
+app.controller('TrialBalanceController', function ($scope, ApiService) {
+
+    ApiService.getTrialBalance().then(res => {
+        $scope.rows = res.data;
+    });
+
 });
